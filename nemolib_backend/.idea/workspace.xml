@@ -2,29 +2,39 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3c820b4a-38ea-4f0e-a481-4a4131b29ad4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Controller/NetworkMotifController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/NemolibAppMain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Services/NetworkMotifService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uwb/nemolib/AdjacencyList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uwb/nemolib/CompactHashSet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uwb/nemolib/ESU.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uwb/nemolib/Graph.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uwb/nemolib/GraphInducer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uwb/nemolib/GraphParser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uwb/nemolib/Labeler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uwb/nemolib/NemoProfileBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uwb/nemolib/RandESU.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uwb/nemolib/RandomGraphAnalyzer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uwb/nemolib/RandomGraphGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uwb/nemolib/RelativeFrequencyAnalyzer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uwb/nemolib/Subgraph.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uwb/nemolib/SubgraphCollection.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uwb/nemolib/SubgraphCount.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uwb/nemolib/SubgraphEnumerationResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uwb/nemolib/SubgraphEnumerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uwb/nemolib/SubgraphProfile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uwb/nemolib/TargetGraphAnalyzer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/uwb/nemolib_examples/network_motif_detector/NetworkMotifDetector.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Configure/SwaggerConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Controller/ComputingController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Property/FileStorageProperties.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Services/ComputingService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Util/FileStorageException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Util/NoSuchFileFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/labelg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Controller/NetworkMotifController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/NemolibAppMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/NemolibAppMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Services/NetworkMotifService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Services/StorageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uwb/nemolib/AdjacencyList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/AdjacencyList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uwb/nemolib/CompactHashSet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/CompactHashSet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uwb/nemolib/ESU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/ESU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uwb/nemolib/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/Graph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uwb/nemolib/GraphInducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/GraphInducer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uwb/nemolib/GraphParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/GraphParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uwb/nemolib/Labeler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/Labeler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uwb/nemolib/NemoProfileBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/NemoProfileBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uwb/nemolib/RandESU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/RandESU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uwb/nemolib/RandomGraphAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/RandomGraphAnalyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uwb/nemolib/RandomGraphGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/RandomGraphGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uwb/nemolib/RelativeFrequencyAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/RelativeFrequencyAnalyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uwb/nemolib/Subgraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/Subgraph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uwb/nemolib/SubgraphCollection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/SubgraphCollection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uwb/nemolib/SubgraphCount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/SubgraphCount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uwb/nemolib/SubgraphEnumerationResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/SubgraphEnumerationResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uwb/nemolib/SubgraphEnumerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/SubgraphEnumerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uwb/nemolib/SubgraphProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/SubgraphProfile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uwb/nemolib/TargetGraphAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/TargetGraphAnalyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uwb/nemolib_examples/network_motif_detector/NetworkMotifDetector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/uwb/nemolib_examples/network_motif_detector/NetworkMotifDetector.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -37,45 +47,47 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uwb/nemolib/TargetGraphAnalyzer.java">
-          <provider selected="true" editor-type-id="text-editor" />
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Services/ComputingService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="131">
+              <caret line="27" column="20" lean-forward="true" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Services/StorageService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="279">
+              <caret line="32" column="86" lean-forward="true" selection-start-line="32" selection-start-column="86" selection-end-line="32" selection-end-column="86" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="docComment;class#StorageService#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uwb/nemolib/GraphInducer.java">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uwb/nemolib/RandESU.java">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uwb/nemolib/ESU.java">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uwb/nemolib/SubgraphProfile.java">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uwb/nemolib_examples/network_motif_detector/NetworkMotifDetector.java">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/uwb/nemolib/RandomGraphAnalyzer.java">
-          <provider selected="true" editor-type-id="text-editor" />
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Controller/ComputingController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="612">
+              <caret line="36" column="5" lean-forward="true" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/NemolibAppMain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="11" column="11" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="11" />
+            <state relative-caret-position="288">
+              <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="docComment;class#NemolibAppMain#0" expanded="true" />
@@ -85,19 +97,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Services/NetworkMotifService.java">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="5" column="25" lean-forward="true" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="25" />
+            <state>
+              <caret column="1" selection-start-column="1" selection-end-column="1" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Controller/NetworkMotifController.java">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Property/FileStorageProperties.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="20" column="39" selection-start-line="20" selection-start-column="39" selection-end-line="20" selection-end-column="39" />
+            <state relative-caret-position="180">
+              <caret line="10" column="29" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="29" />
+              <folding>
+                <element signature="docComment;class#FileStorageProperties#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -111,17 +126,34 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>Could not process</find>
+      <find>System.out.println(</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/NemolibAppMain.java" />
         <option value="$PROJECT_DIR$/src/main/java/uwb/nemolib/RandomGraphAnalyzer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Configure/SwaggerConfig.java" />
+        <option value="$PROJECT_DIR$/src/main/java/uwb/nemolib_examples/network_motif_detector/NetworkMotifDetector.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/RandESU.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/uwb/nemolib_examples/network_motif_detector/NetworkMotifDetector.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Services/NetworkMotifService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Controller/NetworkMotifController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Util/FileStorageException.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Util/NoSuchFileFoundException.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/NemolibAppMain.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Property/FileStorageProperties.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Controller/ComputingController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Services/ComputingService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Services/StorageService.java" />
       </list>
     </option>
   </component>
@@ -132,9 +164,25 @@
       </MavenImportingSettings>
     </option>
   </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="nemolib_backend" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="nemolib_backend" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
+        </path>
+      </expand>
+      <select />
+    </treeState>
+  </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="418" />
-    <option name="y" value="230" />
+    <option name="x" value="386" />
+    <option name="y" value="124" />
     <option name="width" value="2412" />
     <option name="height" value="1718" />
   </component>
@@ -169,23 +217,12 @@
               <item name="nemolib_backend" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="nemolib_backend" type="b2602c69:ProjectViewProjectNode" />
               <item name="nemolib_backend" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="nemolibapp" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="nemolib_backend" type="b2602c69:ProjectViewProjectNode" />
-              <item name="nemolib_backend" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="uwb" type="462c0819:PsiDirectoryNode" />
+              <item name="uploads" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -196,16 +233,25 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551856340638" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551926010986" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../nemolib-master" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="preferences.pathVariables" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.CSS590.nemolibapp.Configure" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\lytbf\Documents\Code\NemoLib_App\nemolib_backend\src\main\resources" />
       <recent name="C:\Users\lytbf\Documents\Code\NemoLib_App\nemolib_backend\src\main\java" />
     </key>
   </component>
@@ -235,6 +281,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="NemolibAppMain" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="nemolib_backend" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.CSS590.nemolibapp.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.CSS590.nemolibapp.NemolibAppMain" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="TestNG">
       <option name="TEST_OBJECT" value="CLASS" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
@@ -244,6 +303,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.NemolibAppMain" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -256,30 +320,32 @@
       <option name="presentableId" value="Default" />
       <updated>1551855139440</updated>
       <workItem from="1551855141629" duration="10000" />
-      <workItem from="1551855185916" duration="1110000" />
+      <workItem from="1551855185916" duration="15836000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1120000" />
+    <option name="totallyTimeSpent" value="15846000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1633" height="1053" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Web" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1695238" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1695238" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Duplicate detector" weight="0.32993197" />
       <window_info anchor="bottom" id="Spring" />
+      <window_info anchor="bottom" id="Messages" weight="0.32993197" />
       <window_info anchor="bottom" id="Java Enterprise" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32993197" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -289,13 +355,13 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Terminal" order="10" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="right" id="Bean Validation" />
+      <window_info anchor="right" id="Bean Validation" weight="0.3295238" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.2495238" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" id="Theme Preview" order="4" />
-      <window_info anchor="right" id="Maven" order="5" />
+      <window_info anchor="right" id="Maven" order="5" weight="0.3295238" />
       <window_info anchor="right" id="Capture Analysis" order="6" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="right" id="Database" order="8" />
@@ -303,6 +369,10 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp.java">
@@ -312,47 +382,229 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/AdjacencyList.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Configure/SwaggerConfig.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="810">
-          <caret line="45" column="19" selection-start-line="45" selection-start-column="19" selection-end-line="45" selection-end-column="19" />
+        <state relative-caret-position="252">
+          <caret line="26" column="24" selection-start-line="26" selection-start-column="24" selection-end-line="26" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uwb/nemolib/Graph.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/Subgraph.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uwb/nemolib/SubgraphEnumerationResult.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/RandESU.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uwb/nemolib/AdjacencyList.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/GraphInducer.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uwb/nemolib/TargetGraphAnalyzer.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/Graph.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uwb/nemolib/GraphInducer.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/RandomGraphGenerator.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uwb/nemolib/RandESU.java">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-core/9.0.14/tomcat-embed-core-9.0.14.jar!/org/apache/tomcat/util/http/fileupload/InvalidFileNameException.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="11" column="11" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="11" />
+        </state>
+      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uwb/nemolib/ESU.java">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_152/src.zip!/java/nio/file/FileSystemException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="236">
+          <caret line="71" column="11" selection-start-line="71" selection-start-column="11" selection-end-line="71" selection-end-column="11" />
+        </state>
+      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uwb/nemolib/SubgraphProfile.java">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_152/src.zip!/java/io/FileNotFoundException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="63" column="17" selection-start-line="63" selection-start-column="17" selection-end-line="63" selection-end-column="17" />
+          <folding>
+            <element signature="e#1063#1064#0" expanded="true" />
+            <element signature="e#1086#1087#0" expanded="true" />
+            <element signature="e#1471#1472#0" expanded="true" />
+            <element signature="e#1495#1496#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uwb/nemolib_examples/network_motif_detector/NetworkMotifDetector.java">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_152/src.zip!/java/lang/Exception.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="64" column="11" selection-start-line="64" selection-start-column="11" selection-end-line="64" selection-end-column="11" />
+          <folding>
+            <element signature="e#1663#1664#0" expanded="true" />
+            <element signature="e#1693#1694#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/uwb/nemolib/RandomGraphAnalyzer.java">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/NemoProfileBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="12" column="34" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
+          <folding>
+            <element signature="docComment;class#NemoProfileBuilder#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/RelativeFrequencyAnalyzer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1975">
+          <caret line="34" column="11" selection-start-line="34" selection-start-column="11" selection-end-line="34" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/SubgraphEnumerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/RandomGraphAnalyzer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="34" column="37" selection-start-line="34" selection-start-column="37" selection-end-line="34" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/SubgraphEnumerationResult.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="19" column="4" lean-forward="true" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="4" />
+          <folding>
+            <element signature="docComment;method#label#0;class#SubgraphEnumerationResult#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/TargetGraphAnalyzer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="36" column="37" selection-start-line="36" selection-start-column="37" selection-end-line="36" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/GraphParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="25" column="39" selection-start-line="25" selection-start-column="39" selection-end-line="25" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/ESU.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="45" column="9" selection-start-line="45" selection-start-column="9" selection-end-line="45" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/Labeler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="35" column="40" lean-forward="true" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/uwb/nemolib_examples/network_motif_detector/NetworkMotifDetector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="743">
+          <caret line="81" column="38" selection-start-line="64" selection-start-column="8" selection-end-line="81" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/uwb/nemolib/SubgraphProfile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-9">
+          <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Util/NoSuchFileFoundException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="13" column="5" lean-forward="true" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+          <folding>
+            <element signature="e#193#194#0" expanded="true" />
+            <element signature="e#214#215#0" expanded="true" />
+            <element signature="e#283#284#0" expanded="true" />
+            <element signature="e#311#312#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_152/src.zip!/java/net/URI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-270">
+          <caret line="463" column="19" selection-start-line="463" selection-start-column="19" selection-end-line="463" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_152/src.zip!/java/nio/file/Paths.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="130" column="28" selection-start-line="130" selection-start-column="28" selection-end-line="130" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#5728#0" expanded="true" />
+            <element signature="docComment;method#get#0;class#Paths#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_152/src.zip!/java/nio/file/Path.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="307" column="4" lean-forward="true" selection-start-line="307" selection-start-column="4" selection-end-line="307" selection-end-column="4" />
+          <folding>
+            <element signature="docComment;method#normalize#0;class#Path#0" expanded="true" />
+            <element signature="docComment;method#resolve#1;class#Path#0" expanded="true" />
+            <element signature="docComment;method#toString#0;class#Path#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_152/src.zip!/java/nio/file/Files.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="89" column="19" selection-start-line="89" selection-start-column="19" selection-end-line="89" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Util/FileStorageException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+          <folding>
+            <element signature="e#188#189#0" expanded="true" />
+            <element signature="e#209#210#0" expanded="true" />
+            <element signature="e#275#276#0" expanded="true" />
+            <element signature="e#303#304#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="40" column="21" selection-start-line="40" selection-start-column="21" selection-end-line="40" selection-end-column="21" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/NemolibAppMain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="11" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="11" />
+        <state relative-caret-position="288">
+          <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;class#NemolibAppMain#0" expanded="true" />
@@ -360,17 +612,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Services/NetworkMotifService.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="5" column="25" lean-forward="true" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="25" />
+        <state>
+          <caret column="1" selection-start-column="1" selection-end-column="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Controller/NetworkMotifController.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Property/FileStorageProperties.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="20" column="39" selection-start-line="20" selection-start-column="39" selection-end-line="20" selection-end-column="39" />
+        <state relative-caret-position="180">
+          <caret line="10" column="29" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="29" />
+          <folding>
+            <element signature="docComment;class#FileStorageProperties#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Controller/ComputingController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="36" column="5" lean-forward="true" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Services/ComputingService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="27" column="20" lean-forward="true" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/CSS590/nemolibapp/Services/StorageService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="32" column="86" lean-forward="true" selection-start-line="32" selection-start-column="86" selection-end-line="32" selection-end-column="86" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="docComment;class#StorageService#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

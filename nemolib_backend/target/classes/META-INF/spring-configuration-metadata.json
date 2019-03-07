@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "file",
+      "type": "com.CSS590.nemolibapp.Property.FileStorageProperties",
+      "sourceType": "com.CSS590.nemolibapp.Property.FileStorageProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "file.upload-dir",
+      "type": "java.lang.String",
+      "sourceType": "com.CSS590.nemolibapp.Property.FileStorageProperties"
+    }
+  ],
+  "hints": []
+}
