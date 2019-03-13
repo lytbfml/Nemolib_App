@@ -41,8 +41,7 @@ public class ComputingService {
 		}
 		probs.add(1.0);
 		probs.add(0.1);
-		
-		
+		// todo: switch to randESU
 		SubgraphProfile subgraphProfile = new SubgraphProfile();
 		SubgraphEnumerator esu = new ESU();
 		esu.enumerate(targetGraph, motifSize, subgraphProfile);
@@ -59,7 +58,7 @@ public class ComputingService {
 		
 		// System.out.println(rfa);
 		// System.out.println(np);
-		return rfa.toString() + "\n" + np.toString();
+		return rfa.toHtmlString() + "<br />\n" + np.toHtmlString();
 	}
 	
 }

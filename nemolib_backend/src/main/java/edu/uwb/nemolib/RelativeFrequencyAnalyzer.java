@@ -210,4 +210,45 @@ public final class RelativeFrequencyAnalyzer {
 		}
 		return sb.toString();
 	}
+	
+	public String toHtmlString() {
+		NumberFormat nf = new DecimalFormat("0.000");
+		StringBuilder sb = new StringBuilder();
+		sb.append("<table> <tr> <td>");
+		sb.append("Label</td><td>RelFreq</td><td>RandMeanFreq<td>Z-Score</td><td>P-Value</td></tr>");
+		sb.append(String.format("%n"));
+		for (String label : zScores.keySet()) {
+			sb.append("<tr>");
+			sb.append("<td>").append(label).append("</td>");
+			sb.append("<td>");
+			if (targetLabelToRelativeFrequencies.containsKey(label)) {
+				double targetGraphRelFreqPerc =
+						targetLabelToRelativeFrequencies.get(label) * 100.0;
+				sb.append(nf.format(targetGraphRelFreqPerc));
+			} else {
+				sb.append(nf.format(0.0));
+			}
+			sb.append("%</td>");
+			sb.append("<td>");
+			if (randomLabelToMeanRelativeFrequencies.containsKey(label)) {
+				double randomGraphRelFreqPerc =
+						randomLabelToMeanRelativeFrequencies.get(label) * 100.0;
+				sb.append(nf.format(randomGraphRelFreqPerc));
+			} else {
+				sb.append(nf.format(0.0));
+			}
+			sb.append("%</td>");
+			sb.append("<td>");
+			double zScore = getZScore(label);
+			sb.append(nf.format(zScore)).append("</td>");
+			sb.append("<td>");
+			double pValue = getPValue(label);
+			sb.append(nf.format(pValue));
+			sb.append("</td>");
+			sb.append(String.format("%n"));
+			sb.append("<tr>");
+		}
+		sb.append("</table>");
+		return sb.toString();
+	}
 }

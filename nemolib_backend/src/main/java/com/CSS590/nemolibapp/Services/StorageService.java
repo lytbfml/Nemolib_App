@@ -1,9 +1,6 @@
 package com.CSS590.nemolibapp.Services;
 
 import com.CSS590.nemolibapp.Property.FileStorageProperties;
-import com.CSS590.nemolibapp.Util.FileStorageException;
-import com.CSS590.nemolibapp.Util.NoSuchFileFoundException;
-import org.apache.tomcat.util.http.fileupload.InvalidFileNameException;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -30,7 +27,7 @@ public class StorageService {
 		try {
 			Files.createDirectories(this.dirPath);
 		} catch (Exception ex) {
-			throw new FileStorageException("Could not create the upload directory : ", ex);
+			System.out.println("Could not create the upload directory : " + ex);
 		}
 	}
 	
@@ -41,18 +38,15 @@ public class StorageService {
 		try {
 			// Check if the file's name contains invalid characters
 			if (fileName.contains("..")) {
-				throw new InvalidFileNameException("Invalid file name",
-				                                   "Sorry! Filename contains invalid path sequence " +
-						                                   fileName);
+				System.out.println("Sorry! Filename contains invalid path sequence " + fileName);
 			}
-			
 			// Copy file to the target location (Replacing existing file with the same name)
 			Path targetLocation = this.dirPath.resolve(fileName);
 			Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 			return targetLocation;
 		} catch (IOException ex) {
-			throw new FileStorageException("Could not store file: " + fileName +
-					                               ". Please try again!", ex);
+			System.out.println("Could not store file: " + fileName + ". Please try again!\n" + ex);
+			return null;
 		}
 	}
 	
@@ -71,11 +65,12 @@ public class StorageService {
 			if (resource.exists()) {
 				return resource;
 			} else {
-				throw new NoSuchFileFoundException("File not found " + fileName);
+				System.out.println("File not found " + fileName);
 			}
 		} catch (MalformedURLException e) {
-			throw new NoSuchFileFoundException("File not found " + fileName, e);
+			System.out.println("File not found " + fileName + "\n" + e);
 		}
+		return null;
 	}
 	
 	void deleteAll() {

@@ -30,9 +30,11 @@ public class ComputingController {
 			return "Empty file";
 		}
 		Path filePath = storageService.storeFile(file);
-		
+		if (filePath == null) {
+			return "Error, cannot upload file: " + file.getName();
+		}
 		String results = cService.CalculateNetworkMotif(filePath.toString(), motifSize, randGraph);
-		return "Upload File: " + filePath.getFileName() + "\nSubGraph size: " + motifSize +
-				"\nNumber of random networks: " + randGraph + "\n" + results + "\nFinished.";
+		return "Upload File: " + filePath.getFileName() + "<br />SubGraph size: " + motifSize +
+				"<br />Number of random networks: " + randGraph + "<br />" + results + "\n";
 	}
 }
