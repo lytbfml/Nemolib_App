@@ -1,0 +1,22 @@
+
+#mainTitle{
+  color:dodgerblue;
+}
+
+#subTitle {
+  color:cornflowerblue;
+}
+
+#chooseFileBn {
+  color:cornflowerblue;
+}
+
+body {
+  font-family: sans-serif;
+}
+
+.jumbotron {
+  width: 70%;
+}
+
+

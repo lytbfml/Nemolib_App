@@ -1,0 +1,92 @@
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <h2 id="mainTitle">Network Motif</h2>
+    </div>
+    <div class="row justify-content-center">
+        <h4 id="subTitle">A motif detection program</h4>
+    </div>
+</div>
+
+
+<div class="row justify-content-center">
+    <div class="jumbotron">
+        <form action="http://34.221.211.106:8080/compute/networkmotif" method="post" enctype="multipart/form-data"
+              target="_blank">
+            <div>
+                <label>Step1: select data file </label>
+                <input type="file" id="chooseFileBn" class="btn btn-default btn-file form-control-file" name="file"
+                       required>
+            </div>
+            <br/>
+
+            <div>
+                <div class="form-group">
+                    <label>Step 2: type subgraph size</label>
+                    <input type="number" name="motifSize" [(ngModel)]="size" class="form-control" placeholder="3"
+                           min="3" max="8" required>
+                </div>
+            </div>
+
+            <label>Step 3: choose full enumeration or sampling probabilities</label>
+
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1"
+                       checked>
+                <label class="form-check-label">
+                    Full Enumeration
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                <label class="form-check-label">
+                    Sampling Probabilities
+                </label>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <input type="number" class="form-control" placeholder="0.5" min="0.1" max="1" step="0.1">
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" placeholder="0.5" min="0.1" max="1" step="0.1">
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" placeholder="0.5" min="0.1" max="1" step="0.1">
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" [disabled]="size < 4" placeholder="0.5" min="0.1" max="1"
+                           step="0.1">
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" [disabled]="size < 5" placeholder="0.5" min="0.1" max="1"
+                           step="0.1">
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" [disabled]="size < 6" placeholder="0.5" min="0.1" max="1"
+                           step="0.1">
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" [disabled]="size < 7" placeholder="0.5" min="0.1" max="1"
+                           step="0.1">
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" [disabled]="size < 8" placeholder="0.5" min="0.1" max="1"
+                           step="0.1">
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="form-group">
+                <label>Step 4: type number of random networks</label>
+                <input type="number" name="randGraphCount" class="form-control" placeholder="10" min="10" required>
+            </div>
+
+            <div class="row justify-content-center">
+                <button type="submit" class="btn btn-primary">Run</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
