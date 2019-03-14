@@ -1,5 +1,6 @@
 package com.CSS590.nemolibapp.Controller;
 
+import com.CSS590.nemolibapp.Model.NetworkMotifBean;
 import com.CSS590.nemolibapp.Services.ComputingService;
 import com.CSS590.nemolibapp.Services.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +23,17 @@ public class ComputingController {
 	private ComputingService cService;
 	
 	@RequestMapping(value = "networkmotif", method = RequestMethod.POST)
-	public String getNetworkMotif(@RequestParam(name = "file") MultipartFile file,
-	                              @RequestParam(name = "motifSize") int motifSize,
-	                              @RequestParam(name = "randGraphCount") int randGraph) {
-		if (file.isEmpty()) {
-			
-			return "Empty file";
-		}
-		Path filePath = storageService.storeFile(file);
-		if (filePath == null) {
-			return "Error, cannot upload file: " + file.getName();
-		}
-		String results = cService.CalculateNetworkMotif(filePath.toString(), motifSize, randGraph);
-		return "Upload File: " + filePath.getFileName() + "<br />SubGraph size: " + motifSize +
-				"<br />Number of random networks: " + randGraph + "<br />" + results + "\n";
+	public NetworkMotifBean getNetworkMotif(@RequestBody NetworkMotifBean networkMotifBean) {
+		// if (networkMotifBean.getFile().isEmpty()) {
+		// 	return "Empty file";
+		// }
+		// Path filePath = storageService.storeFile(networkMotifBean.getFile());
+		// if (filePath == null) {
+		// 	return "Error, cannot upload file: " + networkMotifBean.getFile().getName();
+		// }
+		
+		// String results = cService.CalculateNetworkMotif(filePath.toString(), motifSize, randGraph);
+		System.out.println("MoSize: " + networkMotifBean.getMotifSize() + " random networks: ");
+		return networkMotifBean;
 	}
 }
