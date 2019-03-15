@@ -11,14 +11,14 @@
 <div class="row justify-content-center">
     <div class="jumbotron">
         <form>
-            <!--<div>-->
-            <!--<label>Step1: select data file </label>-->
-            <!--<input [(ngModel)]="file" type="file" id="chooseFileBn"-->
-            <!--class="btn btn-default btn-file form-control-file" name="file" required>-->
+            <!--<div id="hide" class="col-lg-8 col-xs-8">-->
+            <!--<input type="file" name="file" id="file" class="inputfile" />-->
+            <!--<label for="file">Choose a file</label>-->
             <!--</div>-->
+
             <form [formGroup]="formDoc" novalidate>
                 <mat-form-field class="input-one">
-                    <ngx-mat-file-input
+                    <ngx-mat-file-input (click)="selFile()"
                             formControlName="reFile" placeholder="Required input" valuePlaceholder="No file selected"
                             required
                     ></ngx-mat-file-input>
@@ -44,8 +44,6 @@
                     The motif size is <strong>required</strong>
                 </mat-error>
             </mat-form-field>
-            <div>{{ mSControl.value }}</div>
-
 
             <mat-radio-group name="probsel" [(ngModel)]="probSel">
                 <mat-radio-button value="1">Full Enumeration</mat-radio-button>
@@ -67,23 +65,28 @@
                 </div>
                 <div class="col">
                     <input name="prob3" type="number" [(ngModel)]="prob[3]" class="form-control"
-                           [disabled]="mSControl.value < 4 || probSel != 2" placeholder="0.5" min="0.1" max="1" step="0.1">
+                           [disabled]="mSControl.value < 4 || probSel != 2" placeholder="0.5" min="0.1" max="1"
+                           step="0.1">
                 </div>
                 <div class="col">
                     <input name="prob4" type="number" [(ngModel)]="prob[4]" class="form-control"
-                           [disabled]="mSControl.value < 5 || probSel != 2" placeholder="0.5" min="0.1" max="1" step="0.1">
+                           [disabled]="mSControl.value < 5 || probSel != 2" placeholder="0.5" min="0.1" max="1"
+                           step="0.1">
                 </div>
                 <div class="col">
                     <input name="prob5" type="number" [(ngModel)]="prob[5]" class="form-control"
-                           [disabled]="mSControl.value < 6 || probSel != 2" placeholder="0.5" min="0.1" max="1" step="0.1">
+                           [disabled]="mSControl.value < 6 || probSel != 2" placeholder="0.5" min="0.1" max="1"
+                           step="0.1">
                 </div>
                 <div class="col">
                     <input name="prob6" type="number" [(ngModel)]="prob[6]" class="form-control"
-                           [disabled]="mSControl.value < 7 || probSel != 2" placeholder="0.5" min="0.1" max="1" step="0.1">
+                           [disabled]="mSControl.value < 7 || probSel != 2" placeholder="0.5" min="0.1" max="1"
+                           step="0.1">
                 </div>
                 <div class="col">
                     <input name="prob7" type="number" [(ngModel)]="prob[7]" class="form-control"
-                           [disabled]="mSControl.value < 8 || probSel != 2" placeholder="0.5" min="0.1" max="1" step="0.1">
+                           [disabled]="mSControl.value < 8 || probSel != 2" placeholder="0.5" min="0.1" max="1"
+                           step="0.1">
                 </div>
             </div>
 
@@ -111,9 +114,15 @@
         </form>
 
         <br/><br/>
+        <div *ngIf="currentFileUpload" class="progress">
+            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+                 aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
+                {{progress.percentage}}%
+            </div>
+        </div>
+        <br/>
         <mat-card class="area">{{results}}</mat-card>
 
-        <div>{{good}}</div>
     </div>
 </div>
 

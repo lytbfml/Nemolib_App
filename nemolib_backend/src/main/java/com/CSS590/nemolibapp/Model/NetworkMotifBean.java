@@ -9,7 +9,7 @@ public class NetworkMotifBean {
 	
 	private int motifSize;
 	private int randSize;
-	// private MultipartFile file;
+	private MultipartFile file;
 	
 	public int getMotifSize() {
 		return motifSize;
@@ -27,11 +27,11 @@ public class NetworkMotifBean {
 		this.randSize = randSize;
 	}
 	
-	// public MultipartFile getFile() {
-	// 	return file;
-	// }
-	//
-	// public void setFile(MultipartFile file) {
-	// 	this.file = file;
-	// }
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
 }

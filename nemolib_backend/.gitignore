@@ -3,6 +3,9 @@
 gradle
 images/
 build/
+uploads/
+
+*.jar
 
 ### Node ###
 # Logs

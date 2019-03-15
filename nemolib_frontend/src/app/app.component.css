@@ -28,6 +28,7 @@ body {
 .area{
   margin-top: 16px;
   width: 100%;
+  white-space: pre;
 }
 
 .input-one {
@@ -35,3 +36,6 @@ body {
   margin-top: 16px;
   margin-bottom: 16px;
 }
+
+
+

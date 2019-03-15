@@ -2,9 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material';
 import {FileInput, FileValidator} from 'ngx-material-file-input';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpEventType, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
 import {NetworkMotif} from './Model/NetworkMotif';
 import {ApiService} from './api.service';
+import {NetworkMotifResults} from './Model/NetworkMotifResults';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -20,18 +21,18 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
     constructor(private fb: FormBuilder, private apiService: ApiService) {
         this.mSControl.setValue('3');
         this.rSControl.setValue('10');
     }
-    title = 'Nemolib-ng-app';
+
+    currentFileUpload: File;
+    progress: { percentage: number } = {percentage: 0};
     formDoc: FormGroup;
-    public probSel: number;
-    public prob = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5];
-    private valid: boolean;
-    public results = 'Results';
-    readonly maxSize = 104857600; // maximum size = 100mb
+    probSel: number;
+    prob = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5];
+    results = '';
+    maxSize = 104857600; // maximum size = 100mb
     mSControl = new FormControl('', [
         Validators.required,
         Validators.min(3),
@@ -42,7 +43,8 @@ export class AppComponent implements OnInit {
         Validators.min(10)
     ]);
     matcher = new MyErrorStateMatcher();
-    good: string;
+    response: NetworkMotifResults;
+    invalidCount = 0;
 
     ngOnInit() {
         this.formDoc = this.fb.group({
@@ -52,62 +54,56 @@ export class AppComponent implements OnInit {
         });
     }
 
-    create() {
-        const newNet: NetworkMotif = {
-            motifSize: this.mSControl.value,
-            randSize: this.rSControl.value
-        };
-
-        this.apiService.submitNetworkMotif(newNet).subscribe(
-            res => {
-                newNet.motifSize = res.motifSize;
-            },
-            err => {
-                alert('An error occurred while saving the note');
-            }
-        );
-    }
-
-    postData(): void {
-        this.valid = true;
-        // const file = this.formDoc.value;
-        let fileData = Object.assign({});
-        fileData = Object.assign(fileData, this.formDoc.value);
+    validation(): boolean {
         const motifSize = this.mSControl.value;
-        const randSize = this.rSControl.value;
         if (this.probSel == null || !this.mSControl.valid || !this.rSControl.valid || !this.formDoc.valid) {
-            this.valid = false;
+            return false;
         } else {
             for (let i = 0; i < motifSize; i++) {
                 if (this.prob[i] == null || this.prob[i] <= 0 || this.prob[i] > 1) {
-                    this.valid = false;
+                    return false;
                 }
             }
         }
-        if (this.valid) {
-            this.results = motifSize + ' \n' + this.prob + '\n' + randSize;
+        return true;
+    }
+
+    postData(): void {
+        if (this.validation()) {
+            this.invalidCount = 0;
+            const formdata: FormData = new FormData();
+            formdata.append('motifSize', this.mSControl.value);
+            formdata.append('randSize', this.rSControl.value);
+            formdata.append('file', this.formDoc.get('reFile').value.files[0]);
+            this.currentFileUpload = this.formDoc.get('reFile').value.files[0];
+            this.results += 'Uploading files...\n';
+            this.apiService.submitNetworkMotif(formdata).subscribe(
+                res => {
+                    if (res.type === HttpEventType.UploadProgress) {
+                        this.progress.percentage = Math.round(100 * res.loaded / res.total);
+                    } else if (res instanceof HttpResponse) {
+                        this.results += 'File is completely uploaded!\n';
+                        this.response = JSON.parse(res.body.toString());
+                        this.results += this.response.message;
+                    } else {
+                        console.log(res.type);
+                    }
+                },
+                err => {
+                    alert('An error occurred while saving the note ' + err);
+                }
+            );
         } else {
-            this.results = 'not valid';
+            this.invalidCount += 1;
+            if (this.invalidCount >= 3) {
+                alert('Please enter all parameters');
+            }
+            return;
         }
-        console.log(fileData);
-        const file = fileData.files;
-        console.log(file);
-        console.log(fileData);
+    }
 
-        const formData: FormData = new FormData();
-        formData.append('file', fileData);
-        formData.append('motifSize', motifSize.toString());
-        formData.append('motifSize', randSize.toString());
-        const payload = new HttpParams()
-            .set('file', fileData)
-            .set('motifSize', motifSize)
-            .set('motifSize', randSize);
-
-        // this.http.post('http://34.221.211.106:8080/compute/networkmotif', payload);
-        // action="http://34.221.211.106:8080/compute/networkmotif" method="post" enctype="multipart/form-data"
-        // target="_blank"
-        const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
-        this.create();
+    selFile() {
+        this.progress.percentage = 0;
     }
 }
 

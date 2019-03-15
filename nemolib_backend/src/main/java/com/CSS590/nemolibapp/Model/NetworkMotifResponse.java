@@ -3,34 +3,42 @@ package com.CSS590.nemolibapp.Model;
 /**
  * @author Yangxiao on 3/13/2019.
  */
-public class NetworkMotifResponse {
+public class NetworkMotifResponse implements ResponseBean {
 	
-	private int motifSize;
-	private int randSize;
-	private String response;
-	// private MultipartFile file;
+	private String message;
+	private String results;
 	
-	public int getMotifSize() {
-		return motifSize;
+	public NetworkMotifResponse(int motifSize, int randSize, String fileName) {
+		this.message = "Motif size: " + motifSize + "\n" + "Random graph size: " + randSize + "\n" +
+				"File: " + fileName + "\n";
 	}
 	
-	public void setMotifSize(int motifSize) {
-		this.motifSize = motifSize;
+	public NetworkMotifResponse() {
 	}
 	
-	public int getRandSize() {
-		return randSize;
+	public static NetworkMotifResponse initWithMessage(String message){
+		NetworkMotifResponse res = new NetworkMotifResponse();
+		res.setMessage(message);
+		return res;
 	}
 	
-	public void setRandSize(int randSize) {
-		this.randSize = randSize;
+	@Override
+	public void setMessage(String message) {
+		this.message = message;
 	}
 	
-	// public MultipartFile getFile() {
-	// 	return file;
-	// }
-	//
-	// public void setFile(MultipartFile file) {
-	// 	this.file = file;
-	// }
+	@Override
+	public String getMessage() {
+		return message;
+	}
+	
+	@Override
+	public void setResults(String results) {
+		this.results = results;
+	}
+	
+	@Override
+	public String getResults() {
+		return results;
+	}
 }
