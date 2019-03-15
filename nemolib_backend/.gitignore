@@ -3,9 +3,10 @@
 gradle
 images/
 build/
+target/
 uploads/
-
 *.jar
+nemolib_backend-0.0.1-SNAPSHOT.jar
 
 ### Node ###
 # Logs
