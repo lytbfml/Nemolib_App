@@ -55,7 +55,7 @@ export class AppComponent implements OnInit {
     currentFileUpload: boolean;
     invalidCount = 0;
     npFinshed = false;
-    displayedColumns: string[] = ['nodeid', 'frequency'];
+    displayedColumns: string[] = ['label', 'nodeid', 'frequency'];
 
     ngOnInit() {
         this.formDoc = this.fb.group({
@@ -137,36 +137,41 @@ export class AppComponent implements OnInit {
         }
     }
 
-    cleanResults() {
-        this.results = '';
-    }
-
     showNemo() {
         if (this.response.optional == '' || this.response.optional == null) {
             this.results += 'No NemoProfile found\n';
         } else {
             this.results += 'Nemo profile label\n' + this.response.optional + '\n';
             const temp = this.response.optional.split('\n');
+            const freqArr = [];
             for (let i = 0; i < temp.length / 2; i++) {
                 const temp1 = temp[i * 2];
                 const temp2 = temp[(i * 2 + 1)];
                 if (temp1 != null && temp2 != null) {
                     const idArr = temp2.split('[');
-                    const freqArr = [];
                     for (let j = 1; j < idArr.length; j++) {
                         const id = idArr[j].substring(0, idArr[j].indexOf(','));
                         const fq = idArr[j].substring(idArr[j].indexOf(',') + 1, idArr[j].indexOf(']'));
-                        freqArr.push({nodeID: id, frequency: fq});
+                        freqArr.push({label: temp1, nodeID: id, frequency: fq});
                     }
                     idArr.shift();
                     this.nemoP.push({label: temp1, freqs: freqArr});
                 }
             }
             console.log(this.nemoP[0].freqs);
-            this.dataSource = new MatTableDataSource<IDFrequency>(this.nemoP[0].freqs);
+            this.dataSource = new MatTableDataSource<IDFrequency>(freqArr);
             this.dataSource.paginator = this.paginator;
             this.npFinshed = true;
         }
+    }
+
+    applyFilter(filterValue: string) {
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+
+    cleanResults() {
+        this.results = '';
+        this.dataSource = null;
     }
 }
 
