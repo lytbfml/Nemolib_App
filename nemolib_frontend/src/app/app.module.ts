@@ -5,7 +5,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
-
+import { MaterialFileInputModule } from 'ngx-material-file-input';
 import {A11yModule} from '@angular/cdk/a11y';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {PortalModule} from '@angular/cdk/portal';
@@ -58,6 +58,7 @@ import {
     ],
     imports: [
         BrowserModule,
+        MaterialFileInputModule,
         AppRoutingModule,
         HttpClientModule,
         FormsModule,

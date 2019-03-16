@@ -11,14 +11,28 @@
 <div class="row justify-content-center">
     <div class="jumbotron">
         <form>
-            <div>
-                <label>Step1: select data file </label>
-                <input [(ngModel)]="file" type="file" id="chooseFileBn"
-                       class="btn btn-default btn-file form-control-file" name="file" required>
-            </div>
+            <!--<div id="hide" class="col-lg-8 col-xs-8">-->
+            <!--<input type="file" name="file" id="file" class="inputfile" />-->
+            <!--<label for="file">Choose a file</label>-->
+            <!--</div>-->
+
+            <form [formGroup]="formDoc" novalidate>
+                <mat-form-field class="input-one">
+                    <ngx-mat-file-input formControlName="reFile" placeholder="Required input"
+                                        valuePlaceholder="No file selected" required
+                    ></ngx-mat-file-input>
+                    <mat-icon matSuffix>folder</mat-icon>
+                    <mat-error *ngIf="formDoc.get('reFile')?.hasError('required')"> Please select a file</mat-error>
+                    <mat-error *ngIf="formDoc.get('reFile')?.hasError('maxContentSize')">
+                        The total size must not
+                        exceed {{ formDoc.get('reFile')?.getError('maxContentSize').maxSize | byteFormat }}
+                        ({{ formDoc.get('reFile')?.getError('maxContentSize').actualSize | byteFormat }}).
+                    </mat-error>
+                </mat-form-field>
+            </form>
 
             <mat-form-field class="input-one">
-                <input matInput name="motifSize" type="number" [(ngModel)]="motifSize" placeholder="Motif Size"
+                <input matInput name="motifSize" type="number" placeholder="Motif Size"
                        [formControl]="mSControl" [errorStateMatcher]="matcher">
                 <mat-hint>Please enter number 3 - 8</mat-hint>
                 <mat-error
@@ -30,7 +44,6 @@
                 </mat-error>
             </mat-form-field>
 
-
             <mat-radio-group name="probsel" [(ngModel)]="probSel">
                 <mat-radio-button value="1">Full Enumeration</mat-radio-button>
                 <mat-radio-button value="2">Sampling Probabilities</mat-radio-button>
@@ -39,42 +52,47 @@
             <div class="row">
                 <div class="col">
                     <input name="prob0" type="number" [(ngModel)]="prob[0]" class="form-control" placeholder="0.5"
-                           min="0.1" max="1" step="0.1">
+                           min="0.1" max="1" step="0.1" [disabled]="probSel != 2">
                 </div>
                 <div class="col">
                     <input name="prob1" type="number" [(ngModel)]="prob[1]" class="form-control" placeholder="0.5"
-                           min="0.1" max="1" step="0.1">
+                           min="0.1" max="1" step="0.1" [disabled]="probSel != 2">
                 </div>
                 <div class="col">
                     <input name="prob2" type="number" [(ngModel)]="prob[2]" class="form-control" placeholder="0.5"
-                           min="0.1" max="1" step="0.1">
+                           min="0.1" max="1" step="0.1" [disabled]="probSel != 2">
                 </div>
                 <div class="col">
                     <input name="prob3" type="number" [(ngModel)]="prob[3]" class="form-control"
-                           [disabled]="motifSize < 4" placeholder="0.5" min="0.1" max="1" step="0.1">
+                           [disabled]="mSControl.value < 4 || probSel != 2" placeholder="0.5" min="0.1" max="1"
+                           step="0.1">
                 </div>
                 <div class="col">
                     <input name="prob4" type="number" [(ngModel)]="prob[4]" class="form-control"
-                           [disabled]="motifSize < 5" placeholder="0.5" min="0.1" max="1" step="0.1">
+                           [disabled]="mSControl.value < 5 || probSel != 2" placeholder="0.5" min="0.1" max="1"
+                           step="0.1">
                 </div>
                 <div class="col">
                     <input name="prob5" type="number" [(ngModel)]="prob[5]" class="form-control"
-                           [disabled]="motifSize < 6" placeholder="0.5" min="0.1" max="1" step="0.1">
+                           [disabled]="mSControl.value < 6 || probSel != 2" placeholder="0.5" min="0.1" max="1"
+                           step="0.1">
                 </div>
                 <div class="col">
                     <input name="prob6" type="number" [(ngModel)]="prob[6]" class="form-control"
-                           [disabled]="motifSize < 7" placeholder="0.5" min="0.1" max="1" step="0.1">
+                           [disabled]="mSControl.value < 7 || probSel != 2" placeholder="0.5" min="0.1" max="1"
+                           step="0.1">
                 </div>
                 <div class="col">
                     <input name="prob7" type="number" [(ngModel)]="prob[7]" class="form-control"
-                           [disabled]="motifSize < 8" placeholder="0.5" min="0.1" max="1" step="0.1">
+                           [disabled]="mSControl.value < 8 || probSel != 2" placeholder="0.5" min="0.1" max="1"
+                           step="0.1">
                 </div>
             </div>
 
             <br/>
 
             <mat-form-field class="input-one">
-                <input matInput name="randGraphCount" type="number" [(ngModel)]="randSize"
+                <input matInput name="randSize" type="number"
                        placeholder="Random Graph Size"
                        [formControl]="rSControl" [errorStateMatcher]="matcher">
                 <mat-hint>Please enter number >= 10</mat-hint>
@@ -89,15 +107,61 @@
             <br/>
 
             <div class="row justify-content-center">
-                <button mat-raised-button color="primary" (click)="postData()">Submit</button>
+                <button mat-raised-button color="primary" [disabled]="submitted" (click)="postData()">Submit</button>
             </div>
-
 
         </form>
 
         <br/><br/>
-        <mat-card class="area">{{results}}</mat-card>
 
+        <mat-card *ngIf="results" class="area">{{results}}</mat-card>
+        <br/>
+        <div *ngIf="currentFileUpload" class="progress">
+            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+                 aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
+                {{progress.percentage}}%
+            </div>
+        </div>
+        <br/>
+        <mat-progress-bar mode="indeterminate" [hidden]="!submitted"></mat-progress-bar>
+        <br/>
+        <div class="row justify-content-center">
+            <button mat-raised-button color="primary" [disabled]="!resultsGet" (click)="showNemo()">NemoProfile
+            </button>
+            <button mat-raised-button color="primary" class="cleanBtn" (click)="cleanResults()">Clean Results</button>
+        </div>
+
+        <br/><br/>
+        <div class="mat-elevation-z8" >
+            <mat-form-field class="filterTable">
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+            </mat-form-field>
+
+            <table mat-table [dataSource]="dataSource">
+
+                <!-- Label Column -->
+                <ng-container matColumnDef="label">
+                    <th mat-header-cell *matHeaderCellDef> Label</th>
+                    <td mat-cell *matCellDef="let element"> {{element.label}} </td>
+                </ng-container>
+
+                <!-- ID Column -->
+                <ng-container matColumnDef="nodeid">
+                    <th mat-header-cell *matHeaderCellDef> Node ID</th>
+                    <td mat-cell *matCellDef="let element"> {{element.nodeID}} </td>
+                </ng-container>
+
+                <!-- Frequency Column -->
+                <ng-container matColumnDef="frequency">
+                    <th mat-header-cell *matHeaderCellDef> Frequency</th>
+                    <td mat-cell *matCellDef="let element"> {{element.frequency}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
 
     </div>
 </div>

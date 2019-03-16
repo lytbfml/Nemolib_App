@@ -1,8 +1,11 @@
 package com.CSS590.nemolibapp.Services;
 
 import com.CSS590.nemolibapp.Property.FileStorageProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.core.io.Resource;
@@ -17,8 +20,8 @@ import java.util.stream.Stream;
  */
 @Service
 public class StorageService {
-	
 	private final Path dirPath;
+	Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	
 	public StorageService(FileStorageProperties fileStorageProperties) {
 		
@@ -54,27 +57,39 @@ public class StorageService {
 		return null;
 	}
 	
-	Path load(String filename) {
+	Path loadFile(String filename) {
 		return null;
 	}
 	
 	Resource loadAsResource(String fileName) {
+		// try {
+		// 	Path filePath = this.dirPath.resolve(fileName).normalize();
+		// 	Resource resource = new UrlResource(filePath.toUri());
+		// 	if (resource.exists()) {
+		// 		return resource;
+		// 	} else {
+		// 		System.out.println("File not found " + fileName);
+		// 	}
+		// } catch (MalformedURLException e) {
+		// 	System.out.println("File not found " + fileName + "\n" + e);
+		// }
+		// return null;
 		try {
-			Path filePath = this.dirPath.resolve(fileName).normalize();
-			Resource resource = new UrlResource(filePath.toUri());
-			if (resource.exists()) {
+			Path file = dirPath.resolve(fileName);
+			Resource resource = new UrlResource(file.toUri());
+			if (resource.exists() || resource.isReadable()) {
 				return resource;
 			} else {
-				System.out.println("File not found " + fileName);
+				throw new RuntimeException("FAIL! Cannot load file " + fileName +
+						                           ", file does not exist or not readable");
 			}
 		} catch (MalformedURLException e) {
-			System.out.println("File not found " + fileName + "\n" + e);
+			throw new RuntimeException("FAIL! Cannot load file " + fileName);
 		}
-		return null;
 	}
 	
-	void deleteAll() {
-	
+	public void deleteAll() {
+		FileSystemUtils.deleteRecursively(dirPath.toFile());
 	}
 	
 }

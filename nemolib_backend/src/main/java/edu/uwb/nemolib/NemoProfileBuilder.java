@@ -17,7 +17,7 @@ public class NemoProfileBuilder {
 		Map<String, Double> pValues = sa.getPValues();
 		for (Map.Entry<String, Double> labelPValue : pValues.entrySet()) {
 			if (labelPValue.getValue() <= pThresh) {
-				System.out.println(labelPValue.getKey());
+				// System.out.println(labelPValue.getKey());
 				result.addFrequencies(labelPValue.getKey(),
 						sp.getFrequencies(labelPValue.getKey()));
 			}
