@@ -1,11 +1,12 @@
 # Nemolib_App
-This application uses API [UWB Nemolibrary](https://github.com/drewandersen/nemolib) to executing the NemoProfile algorithm. It can also used for motif detection.
+This application uses API [UWB Nemolibrary](https://github.com/drewandersen/nemolib) to executing the NemoProfile algorithm. It can be also used for motif detection.
+
 
 We used [Angular](https://angular.io/) (v7.3.5) for the front end, and [Spring Boot](https://spring.io) (v2.1.2.RELEASE) for the back end.  
 Both of the front-end and back-end applications are deployed on my AWS.  
 To access the back end api, please go to [Swagger UI](http://34.221.211.106:8080/swagger-ui.html#/).  
 To acces the front end web page, please go to [NemoLib Application](http://nemolibapp.s3-website-us-west-2.amazonaws.com/).  
-Note the above links might be invalid because I am using my personal AWS account. 
+Note the above links might be invalid because I am using my personal AWS account.
 
 To learn more, please contact wyxiao@uw.com, hsuy717@uw.edu.
 
@@ -17,7 +18,7 @@ To run the program on your own server, please read the following
 - Unix-like operating system (macOS or Linux), or Windows Subsystem for Linux (WSL)
 - Nodejs should be installed
 - Angular CLI should be installed
-- C compiler for [Nauty](http://users.cecs.anu.edu.au/~bdm/nauty/)
+- C compiler for [Nauty](http://pallini.di.uniroma1.it/)
 - Java 1.8
 
 ### Basic installation
