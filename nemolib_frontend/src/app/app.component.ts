@@ -31,14 +31,13 @@ export class AppComponent implements OnInit {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    nemoP = [];
     dataSource: MatTableDataSource<IDFrequency>;
+    displayedColumns: string[] = ['label', 'nodeid', 'frequency'];
     progress: { percentage: number } = {percentage: 0};
-    formDoc: FormGroup;
-    probSel: number;
-    prob = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5];
     results = '';
     maxSize = 104857600; // maximum size = 100mb
+    matcher = new MyErrorStateMatcher();
+    formDoc: FormGroup;
     mSControl = new FormControl('', [
         Validators.required,
         Validators.min(3),
@@ -48,14 +47,14 @@ export class AppComponent implements OnInit {
         Validators.required,
         Validators.min(10)
     ]);
-    matcher = new MyErrorStateMatcher();
+    probSel: string;
+    prob = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5];
     response: NetworkMotifResults;
     submitted: boolean;
     resultsGet: boolean;
     currentFileUpload: boolean;
-    invalidCount = 0;
     npFinshed = false;
-    displayedColumns: string[] = ['label', 'nodeid', 'frequency'];
+    invalidCount = 0;
 
     ngOnInit() {
         this.formDoc = this.fb.group({
@@ -83,17 +82,18 @@ export class AppComponent implements OnInit {
     postData(): void {
         this.submitted = true;
         this.resultsGet = false;
+        this.dataSource = null;
         if (this.validation()) {
             this.invalidCount = 0;
             const formdata: FormData = new FormData();
             formdata.append('motifSize', this.mSControl.value);
             formdata.append('randSize', this.rSControl.value);
             formdata.append('file', this.formDoc.get('reFile').value.files[0]);
-            if (this.probSel == 1) {
+            if (this.probSel === '1') {
                 for (let i = 0; i < this.mSControl.value; i++) {
                     formdata.append('prob[]', '1.0');
                 }
-            } else if (this.probSel == 2) {
+            } else if (this.probSel === '2') {
                 for (let i = 0; i < this.mSControl.value; i++) {
                     formdata.append('prob[]', this.prob[i].toString());
                 }
@@ -103,14 +103,13 @@ export class AppComponent implements OnInit {
                 res => {
                     if (res.type === HttpEventType.UploadProgress) {
                         this.progress.percentage = Math.round(100 * res.loaded / res.total);
-                        if (this.progress.percentage == 100) {
+                        if (this.progress.percentage === 100) {
                             this.currentFileUpload = false;
                             this.results += 'Processing...\n';
                         }
                     } else if (res instanceof HttpResponse) {
                         this.results += 'File is completely uploaded!\n';
                         this.response = JSON.parse(res.body.toString());
-                        console.log(this.response);
                         this.results += this.response.message;
                         this.results += this.response.results;
                         this.results += '\n';
@@ -118,8 +117,6 @@ export class AppComponent implements OnInit {
                         this.currentFileUpload = false;
                         this.resultsGet = true;
                         this.submitted = false;
-                    } else {
-                        console.log(res.type);
                     }
                 },
                 err => {
@@ -138,7 +135,7 @@ export class AppComponent implements OnInit {
     }
 
     showNemo() {
-        if (this.response.optional == '' || this.response.optional == null) {
+        if (this.response.optional == null || this.response.optional === '') {
             this.results += 'No NemoProfile found\n';
         } else {
             this.results += 'Nemo profile label\n' + this.response.optional + '\n';
@@ -155,10 +152,8 @@ export class AppComponent implements OnInit {
                         freqArr.push({label: temp1, nodeID: id, frequency: fq});
                     }
                     idArr.shift();
-                    this.nemoP.push({label: temp1, freqs: freqArr});
                 }
             }
-            console.log(this.nemoP[0].freqs);
             this.dataSource = new MatTableDataSource<IDFrequency>(freqArr);
             this.dataSource.paginator = this.paginator;
             this.npFinshed = true;
