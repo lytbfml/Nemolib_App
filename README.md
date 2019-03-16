@@ -8,7 +8,7 @@ To access the back end api, please go to [Swagger UI](http://34.221.211.106:8080
 To acces the front end web page, please go to [NemoLib Application](http://nemolibapp.s3-website-us-west-2.amazonaws.com/).  
 Note the above links might be invalid because I am using my personal AWS account.
 
-To learn more, please contact wyxiao@uw.com, hsuy717@uw.edu.
+To learn more, please contact wyxiao@uw.edu, hsuy717@uw.edu.
 
 ## Getting Start
 To run the program on your own server, please read the following
