@@ -62,6 +62,10 @@ Then start the server
 ```
 ng serve
 ```
-Note the server address will be localhost:4200, however you can change it to 4201 by add `--port 4201`
+Note the server address will be localhost:4200, however you can change it to 4201 by add `--port 4201`  
+And change the permission of the labelg program: `chmod u+x src/main/resources/labelg`
 
 ## Advanced Topics
+
+#### Future Work
+Current the frontend reads the results from the backend and process the result string to display. It is useable but there are plenty of smarter ways to do this. For example, update the output section of the Nemolibrary so the frontend can receive more modularized data.  

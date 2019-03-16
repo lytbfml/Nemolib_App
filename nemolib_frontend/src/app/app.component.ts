@@ -8,7 +8,6 @@ import {ApiService} from './api.service';
 import {NetworkMotifResults} from './Model/NetworkMotifResults';
 import {of} from 'rxjs';
 import {NemoProfile} from './Model/NemoProfile';
-import {IDFrequency} from './Model/IDFrequency';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -31,7 +30,7 @@ export class AppComponent implements OnInit {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    dataSource: MatTableDataSource<IDFrequency>;
+    dataSource: MatTableDataSource<NemoProfile>;
     displayedColumns: string[] = ['label', 'nodeid', 'frequency'];
     progress: { percentage: number } = {percentage: 0};
     results = '';
@@ -138,7 +137,7 @@ export class AppComponent implements OnInit {
         if (this.response.optional == null || this.response.optional === '') {
             this.results += 'No NemoProfile found\n';
         } else {
-            this.results += 'Nemo profile label\n' + this.response.optional + '\n';
+            // this.results += 'Nemo profile label\n' + this.response.optional + '\n';
             const temp = this.response.optional.split('\n');
             const freqArr = [];
             for (let i = 0; i < temp.length / 2; i++) {
@@ -154,7 +153,7 @@ export class AppComponent implements OnInit {
                     idArr.shift();
                 }
             }
-            this.dataSource = new MatTableDataSource<IDFrequency>(freqArr);
+            this.dataSource = new MatTableDataSource<NemoProfile>(freqArr);
             this.dataSource.paginator = this.paginator;
             this.npFinshed = true;
         }
