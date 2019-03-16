@@ -28,7 +28,8 @@ body {
 .area{
   margin-top: 16px;
   width: 100%;
-  white-space: pre;
+  white-space: pre-wrap;
+
 }
 
 .input-one {
@@ -37,5 +38,10 @@ body {
   margin-bottom: 16px;
 }
 
+.cleanBtn {
+  margin-left: 16px;
+}
 
-
+table {
+  width: 100%;
+}

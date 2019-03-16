@@ -1,6 +1,7 @@
 package edu.uwb.nemolib;
 
 import java.io.*;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -20,7 +21,6 @@ public final class Labeler {
 
 	// class variable
 	static int instanceCounter = 0;
-	
     // labelg program options
     private static final String labelGPath = "src/main/resources/labelg";
     private static final int invariant = 3;

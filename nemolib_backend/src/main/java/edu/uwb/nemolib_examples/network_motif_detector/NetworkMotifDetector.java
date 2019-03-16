@@ -63,7 +63,7 @@ public class NetworkMotifDetector {
 		}
 		
 		SubgraphEnumerationResult subgraphCount = new SubgraphCount();
-		SubgraphEnumerator targetGraphESU = new ESU();
+		SubgraphEnumerator targetGraphESU = new ESU(probs);
 		TargetGraphAnalyzer targetGraphAnalyzer =
 				new TargetGraphAnalyzer(targetGraphESU, subgraphCount);
 		Map<String, Double> targetLabelToRelativeFrequency =

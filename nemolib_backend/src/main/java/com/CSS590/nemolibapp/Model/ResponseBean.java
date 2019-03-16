@@ -10,4 +10,6 @@ public interface ResponseBean {
 	String getMessage();
 	void setResults(String results);
 	String getResults();
+	void setOptional(String optional);
+	String getOptional();
 }

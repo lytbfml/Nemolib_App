@@ -7,6 +7,7 @@ public class NetworkMotifResponse implements ResponseBean {
 	
 	private String message;
 	private String results;
+	private String optional;
 	
 	public NetworkMotifResponse(int motifSize, int randSize, String fileName) {
 		this.message = "Motif size: " + motifSize + "\n" + "Random graph size: " + randSize + "\n" +
@@ -16,7 +17,7 @@ public class NetworkMotifResponse implements ResponseBean {
 	public NetworkMotifResponse() {
 	}
 	
-	public static NetworkMotifResponse initWithMessage(String message){
+	public static NetworkMotifResponse initWithMessage(String message) {
 		NetworkMotifResponse res = new NetworkMotifResponse();
 		res.setMessage(message);
 		return res;
@@ -40,5 +41,15 @@ public class NetworkMotifResponse implements ResponseBean {
 	@Override
 	public String getResults() {
 		return results;
+	}
+	
+	@Override
+	public void setOptional(String optional) {
+		this.optional = optional;
+	}
+	
+	@Override
+	public String getOptional() {
+		return optional;
 	}
 }

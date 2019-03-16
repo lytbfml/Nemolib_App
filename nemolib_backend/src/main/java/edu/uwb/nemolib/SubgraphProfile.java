@@ -179,24 +179,6 @@ public class SubgraphProfile implements SubgraphEnumerationResult, Serializable
 		return result.toString();
 	}
 	
-	public String toHtmlString() {
-		StringBuilder result = new StringBuilder();
-		String newline = System.getProperty("line.separator");
-		
-		for (Map.Entry<String, Map<Integer, Integer>> labelFreqs :
-				labelToVertexToFrequency.entrySet()) {
-			result.append(labelFreqs.getKey());
-			result.append("<br />");
-			for (Map.Entry<Integer, Integer> nodeFreqs :
-					labelFreqs.getValue().entrySet()) {
-				result.append("[").append(nodeFreqs.getKey()).append(",")
-						.append(nodeFreqs.getValue()).append("]");
-			}
-			result.append("<br />");
-		}
-		return result.toString();
-	}
-
 	// Returns the total number of subgraphs in this SubgraphProfile
 	private int getTotalSubgraphCount() {
 		int total = 0;

@@ -9,7 +9,10 @@ import java.util.List;
  */
 public class ESU implements SubgraphEnumerator
 {
-	public ESU() {}
+	private List<Double> probs;
+	public ESU(List<Double> probs) {
+		this.probs = probs;
+	}
 
 	/**
 	 * Enumerates Subgraphs using the ESU algorithm. Requires user to specify
@@ -39,11 +42,6 @@ public class ESU implements SubgraphEnumerator
 	 */
 	public void enumerate(Graph graph, SubgraphEnumerationResult subgraphs,
 	                      int subgraphSize, int vertex) {
-		List<Double> probs = new ArrayList<>();
-		for (int i = 0; i < subgraphSize; ++i)
-		{
-			probs.add(1.0);
-		}
 		RandESU.enumerate(graph, subgraphs, subgraphSize, probs, vertex);
 	}
 }

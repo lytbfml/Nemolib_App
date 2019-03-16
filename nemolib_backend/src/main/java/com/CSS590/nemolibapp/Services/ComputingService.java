@@ -1,5 +1,6 @@
 package com.CSS590.nemolibapp.Services;
 
+import com.CSS590.nemolibapp.Model.ResponseBean;
 import edu.uwb.nemolib.*;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +19,14 @@ public class ComputingService {
 	
 	public ComputingService() {}
 	
-	public String CalculateNetworkMotif(String fileName, int motifSize, int randGraphCount) {
+	public boolean CalculateNetworkMotif(String fileName, int motifSize, int randGraphCount,
+	                                    List<Double> prob, ResponseBean responseBean) {
+		long time = System.currentTimeMillis();
+		
 		if (motifSize < 3) {
 			System.err.println("Motif size must be 3 or larger");
-			return "Motif size must be 3 or larger";
+			responseBean.setResults("Motif size must be 3 or larger");
+			return false;
 		}
 		// parse input graph
 		// System.out.println("Parsing target graph...");
@@ -31,7 +36,8 @@ public class ComputingService {
 		} catch (IOException e) {
 			System.err.println("Could not process " + fileName);
 			System.err.println(e);
-			return "Could not process " + fileName;
+			responseBean.setResults("Could not process " + fileName);
+			return false;
 		}
 		
 		// hard-code probs for now
@@ -43,7 +49,7 @@ public class ComputingService {
 		probs.add(0.1);
 		// todo: switch to randESU
 		SubgraphProfile subgraphProfile = new SubgraphProfile();
-		SubgraphEnumerator esu = new ESU();
+		SubgraphEnumerator esu = new ESU(prob);
 		esu.enumerate(targetGraph, motifSize, subgraphProfile);
 		subgraphProfile.label();
 		Map<String, Double> targetLabelRelFreqMap = subgraphProfile.getRelativeFrequencies();
@@ -56,9 +62,9 @@ public class ComputingService {
 		
 		SubgraphProfile np = NemoProfileBuilder.build(subgraphProfile, rfa, P_THRESH);
 		
-		// System.out.println(rfa);
-		// System.out.println(np);
-		return rfa.toHtmlString() + "<br />\n" + np.toHtmlString();
+		responseBean.setResults("Running time = " + (System.currentTimeMillis() - time) +  "ms\n" + rfa.toString());
+		responseBean.setOptional(np.toString());
+		return true;
 	}
 	
 }
