@@ -1,6 +1,7 @@
 # Nemolib_App
 This application uses API [UWB Nemolibrary](https://github.com/drewandersen/nemolib) to executing the NemoProfile algorithm. It can be also used for motif detection.
 
+
 We used [Angular](https://angular.io/) (v7.3.5) for the front end, and [Spring Boot](https://spring.io) (v2.1.2.RELEASE) for the back end.  
 Both of the front-end and back-end applications are deployed on my AWS.  
 To access the back end api, please go to [Swagger UI](http://34.221.211.106:8080/swagger-ui.html#/).  
