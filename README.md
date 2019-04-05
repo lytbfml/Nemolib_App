@@ -1,12 +1,12 @@
 # Nemolib_App
-This application uses API [UWB Nemolibrary](https://github.com/drewandersen/nemolib) to executing the NemoProfile algorithm. It can be also used for motif detection.
+This application uses API [UWB Nemolibrary](https://github.com/drewandersen/nemolib) to execute the NemoProfile algorithm. It can be also used for motif detection.
 
 
 We used [Angular](https://angular.io/) (v7.3.5) for the front end, and [Spring Boot](https://spring.io) (v2.1.2.RELEASE) for the back end.  
 Both of the front-end and back-end applications are deployed on my AWS.  
-To access the back end api, please go to [Swagger UI](http://34.221.211.106:8080/swagger-ui.html#/).  
-To acces the front end web page, please go to [NemoLib Application](http://nemolibapp.s3-website-us-west-2.amazonaws.com/).  
-Note the above links might be invalid because I am using my personal AWS account.
+To access the back end api, please go to [Swagger UI](http://54.202.6.246:8080/swagger-ui.html#/). (Only available in US West)  
+To acces the front end web page, please go to [NemoLib Application](http://nemolib.s3-website-us-west-2.amazonaws.com/).  
+Note the above links might be invalid because I am using my personal AWS account and I only have one EC2 instance for US West.
 
 To learn more, please contact wyxiao@uw.edu, hsuy717@uw.edu.
 
@@ -68,4 +68,12 @@ And change the permission of the labelg program: `chmod u+x src/main/resources/l
 ## Advanced Topics
 
 #### Future Work
+Although we has successfully implemented a web-based network motif application and it solves many problems that current applications have, there are still improvements we would like to work on in the future.
+##### Modified data model
 Current the frontend reads the results from the backend and process the result string to display. It is useable but there are plenty of smarter ways to do this. For example, update the output section of the Nemolibrary so the frontend can receive more modularized data.  
+##### Add file management for back-end
+Currently we are using Linux server for our back-end Spring application. All uploaded files were saved in side the server and have to be deleted manually. There should be a new API for the Storage service to control those files.
+##### Add feature to read direct graph
+The current application can only detect network motif based on the an undirected graph. We can improve it by implementing another class which can read direct graph and detect network motif.
+##### Provide motif visualization
+Our web application can provide user the motif data including graph label, relative frequency, random mean frequency, Z score, P value, and NemoProfile . However, the data is in text format. Since network is essentially graph, if we can add the visualization for each motif and where they are in a network, it will give users more insights about the results.
