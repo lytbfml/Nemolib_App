@@ -9,7 +9,7 @@ import {NetworkMotifResults} from './Model/NetworkMotifResults';
     providedIn: 'root'
 })
 export class ApiService {
-    private BASE_URL =  'http://34.221.211.106:8080' + '/compute';
+    private BASE_URL =  'http://54.202.6.246:8080' + '/compute';
     // private BASE_URL = 'http://localhost:8080' + '/compute';
     private SUBMIT_NETWORKMOTIF_URL = `${this.BASE_URL}/networkmotif/`;
 
