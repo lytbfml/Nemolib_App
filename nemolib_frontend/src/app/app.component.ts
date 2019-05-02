@@ -36,7 +36,9 @@ export class AppComponent implements OnInit {
     results = '';
     maxSize = 104857600; // maximum size = 100mb
     matcher = new MyErrorStateMatcher();
+
     formDoc: FormGroup;
+
     mSControl = new FormControl('', [
         Validators.required,
         Validators.min(3),
@@ -46,7 +48,9 @@ export class AppComponent implements OnInit {
         Validators.required,
         Validators.min(10)
     ]);
+
     probSel: string;
+    opSel: string;
     prob = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5];
     response: NetworkMotifResults;
     submitted: boolean;
@@ -54,6 +58,7 @@ export class AppComponent implements OnInit {
     currentFileUpload: boolean;
     npFinshed = false;
     invalidCount = 0;
+    directed = false;
 
     ngOnInit() {
         this.formDoc = this.fb.group({
@@ -65,7 +70,7 @@ export class AppComponent implements OnInit {
 
     validation(): boolean {
         const motifSize = this.mSControl.value;
-        if (this.probSel == null || !this.mSControl.valid || !this.rSControl.valid || !this.formDoc.valid) {
+        if (this.probSel == null || this.opSel == null || !this.mSControl.valid || !this.rSControl.valid || !this.formDoc.valid) {
             return false;
         } else {
             for (let i = 0; i < motifSize; i++) {
@@ -87,6 +92,7 @@ export class AppComponent implements OnInit {
             const formdata: FormData = new FormData();
             formdata.append('motifSize', this.mSControl.value);
             formdata.append('randSize', this.rSControl.value);
+            formdata.append('directed', this.directed ? '1' : '0');
             formdata.append('file', this.formDoc.get('reFile').value.files[0]);
             if (this.probSel === '1') {
                 for (let i = 0; i < this.mSControl.value; i++) {
@@ -98,6 +104,20 @@ export class AppComponent implements OnInit {
                 }
             }
             this.results += 'Uploading files...\n';
+            this.submit(formdata);
+        } else {
+            this.submitted = false;
+            this.currentFileUpload = false;
+            this.invalidCount += 1;
+            if (this.invalidCount >= 3) {
+                alert('Please enter all parameters');
+            }
+            return;
+        }
+    }
+
+    submit(formdata: FormData) {
+        if (this.opSel === '1') {
             this.apiService.submitNetworkMotif(formdata).subscribe(
                 res => {
                     if (res.type === HttpEventType.UploadProgress) {
@@ -122,14 +142,56 @@ export class AppComponent implements OnInit {
                     alert('An error occurred while saving the file ' + err.toString());
                 }
             );
-        } else {
-            this.submitted = false;
-            this.currentFileUpload = false;
-            this.invalidCount += 1;
-            if (this.invalidCount >= 3) {
-                alert('Please enter all parameters');
-            }
-            return;
+        } else if (this.opSel === '2') {
+            this.apiService.submitNemoProfile(formdata).subscribe(
+                res => {
+                    if (res.type === HttpEventType.UploadProgress) {
+                        this.progress.percentage = Math.round(100 * res.loaded / res.total);
+                        if (this.progress.percentage === 100) {
+                            this.currentFileUpload = false;
+                            this.results += 'Processing...\n';
+                        }
+                    } else if (res instanceof HttpResponse) {
+                        this.results += 'File is completely uploaded!\n';
+                        this.response = JSON.parse(res.body.toString());
+                        this.results += this.response.message;
+                        this.results += this.response.results;
+                        this.results += '\n';
+                        this.results += '-------------------------------------End of Results------------------------------------\n\n';
+                        this.currentFileUpload = false;
+                        this.resultsGet = true;
+                        this.submitted = false;
+                    }
+                },
+                err => {
+                    alert('An error occurred while saving the file ' + err.toString());
+                }
+            );
+        } else if (this.opSel === '3') {
+            this.apiService.submitNemoCollection(formdata).subscribe(
+                res => {
+                    if (res.type === HttpEventType.UploadProgress) {
+                        this.progress.percentage = Math.round(100 * res.loaded / res.total);
+                        if (this.progress.percentage === 100) {
+                            this.currentFileUpload = false;
+                            this.results += 'Processing...\n';
+                        }
+                    } else if (res instanceof HttpResponse) {
+                        this.results += 'File is completely uploaded!\n';
+                        this.response = JSON.parse(res.body.toString());
+                        this.results += this.response.message;
+                        this.results += this.response.results;
+                        this.results += '\n';
+                        this.results += '-------------------------------------End of Results------------------------------------\n\n';
+                        this.currentFileUpload = false;
+                        this.resultsGet = true;
+                        this.submitted = false;
+                    }
+                },
+                err => {
+                    alert('An error occurred while saving the file ' + err.toString());
+                }
+            );
         }
     }
 
