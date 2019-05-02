@@ -9,12 +9,11 @@ import {NetworkMotifResults} from './Model/NetworkMotifResults';
     providedIn: 'root'
 })
 export class ApiService {
-    private BASE_URL =  'http://54.202.6.246:8080' + '/compute';
+    private BASE_URL =  'http://bioresearch02p.uwb.edu:8082/' + '/compute';
     // private BASE_URL = 'http://localhost:8080' + '/compute';
     private SUBMIT_NETWORKMOTIF_URL = `${this.BASE_URL}/networkmotif/`;
 
     constructor(private http: HttpClient) {
-
     }
 
     submitNetworkMotif(networkMotif: FormData): Observable<HttpEvent<{}>> {
@@ -24,5 +23,4 @@ export class ApiService {
         });
         return this.http.request(req);
     }
-
 }
