@@ -37,6 +37,8 @@ public class ComputingController {
 	@RequestMapping(value = "networkmotif", method = RequestMethod.POST)
 	public ResponseBean getNetworkMotif(@RequestParam(name = "motifSize") int motifSize,
 	                                    @RequestParam(name = "randSize") int randGraph,
+	                                    @RequestParam(name = "directed") int directed,
+	                                    @RequestParam(name = "option") int option,
 	                                    @RequestParam(name = "file") MultipartFile file,
 	                                    @RequestParam(value = "prob[]") Double[] prob) {
 		if (file == null || file.isEmpty()) {
@@ -61,9 +63,8 @@ public class ComputingController {
 		
 		String x = Paths.get(".").toAbsolutePath().normalize().toString();
 		List<Double> probs = Arrays.asList(prob);
-		boolean success =
-				cService.CalculateNetworkMotif(filePath.toString(), motifSize, randGraph, probs,
-				                               responseBean);
+		boolean success = cService.CalculateNetworkMotif(filePath.toString(), motifSize, randGraph,
+				directed == 1, option, probs, responseBean);
 		return responseBean;
 	}
 }

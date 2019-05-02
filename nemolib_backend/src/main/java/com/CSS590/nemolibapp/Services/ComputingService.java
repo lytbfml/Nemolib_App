@@ -17,8 +17,8 @@ public class ComputingService {
 	
 	public ComputingService() {}
 	
-	public boolean CalculateNetworkMotif(String fileName, int motifSize, int randGraphCount,
-	                                     List<Double> prob, ResponseBean responseBean, boolean directed, int option) {
+	public boolean CalculateNetworkMotif(String fileName, int motifSize, int randGraphCount, boolean directed,
+	                                     int option, List<Double> prob, ResponseBean responseBean) {
 		long time = System.currentTimeMillis();
 		
 		if (motifSize < 3) {
@@ -57,7 +57,6 @@ public class ComputingService {
 		} else if (option == 3) {
 			results = subGraphColl(targetGraph, motifSize, randGraphCount, prob);
 		}
-		
 		
 		responseBean.setResults("Running time = " + (System.currentTimeMillis() - time) + "ms\n" + results);
 		return true;
