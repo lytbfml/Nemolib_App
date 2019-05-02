@@ -4,7 +4,6 @@ import java.io.Serializable;
 /**
  * AdjacencyList represents all adjacent vertices for a particular vertex in a
  * network graph.
- * Avoid to have zero index 8/23/2018
  */
 class AdjacencyList implements Serializable{
 

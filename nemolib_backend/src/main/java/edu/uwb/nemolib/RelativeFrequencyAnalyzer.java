@@ -3,7 +3,6 @@ package edu.uwb.nemolib;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -13,47 +12,44 @@ import java.util.Map;
  * upon initialization.
  */
 public final class RelativeFrequencyAnalyzer {
-	
+
 	// labels mapped to a list containing relativeFrequencies
 	private Map<String, Double> targetLabelToRelativeFrequencies;
 	private Map<String, Double> randomLabelToMeanRelativeFrequencies;
 	private Map<String, Double> zScores;
 	private Map<String, Double> pValues;
-	
+
 	// do not allow default constructor
 	private RelativeFrequencyAnalyzer() {
 		throw new AssertionError();
 	}
-	
+
 	/**
 	 * Constructor for a Statistical Analysis object.
-	 *
-	 * @param randGraphRelFreqs   Labels paired with lists of relative
-	 *                            frequencies of subgraph patterns found in
-	 *                            a random graph pool
+	 * @param randGraphRelFreqs Labels paired with lists of relative
+	 *                          frequencies of subgraph patterns found in
+	 *                          a random graph pool
 	 * @param targetGraphRelFreqs Labels paired with relative frequencies as
 	 *                            found in the target network.
 	 */
 	public RelativeFrequencyAnalyzer(Map<String, List<Double>> randGraphRelFreqs,
 	                                 Map<String, Double> targetGraphRelFreqs) {
 		this.targetLabelToRelativeFrequencies = targetGraphRelFreqs;
-		
 		this.zScores = new HashMap<>();
 		calculateZScores(randGraphRelFreqs, targetGraphRelFreqs);
 		this.pValues = new HashMap<>();
 		calculatePValues(randGraphRelFreqs, targetGraphRelFreqs);
 		this.randomLabelToMeanRelativeFrequencies = calcRandMeans(randGraphRelFreqs);
-		
 	}
-	
+
 	public Map<String, Double> getRandMeans() {
 		return randomLabelToMeanRelativeFrequencies;
 	}
-	
-	
-	private Map<String, Double> calcRandMeans(Map<String, List<Double>> randGraphRelFreqs) {
+
+
+	private Map<String,Double> calcRandMeans(Map<String, List<Double>> randGraphRelFreqs) {
 		Map<String, Double> result = new HashMap<>();
-		for (Map.Entry<String, List<Double>> entry : randGraphRelFreqs.entrySet()) {
+		for (Map.Entry<String, List<Double>> entry : randGraphRelFreqs.entrySet()){
 			double mean = 0.0;
 			for (double freq : entry.getValue()) {
 				mean += freq;
@@ -63,74 +59,48 @@ public final class RelativeFrequencyAnalyzer {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Get the z-scores for this RelativeFrequencyAnalyzer object.
-	 *
 	 * @return a map containing labels and corresponding z-scores
 	 */
 	public Map<String, Double> getZScores() {
 		return zScores;
 	}
-	
+
 	/**
 	 * Get the z-score for a specified label for the data sets contained in
 	 * this RelativeFrequencyAnalyzer object
-	 *
 	 * @param label the label for which to get the z-score
 	 * @return the z-score for the given label
 	 */
 	private double getZScore(String label) {
 		return zScores.getOrDefault(label, 0.0);
 	}
-	
+
 	/**
 	 * Get the p-values for this RelativeFrequencyAnalyzer object.
-	 *
 	 * @return a map containing labels and corresponding p-values
 	 */
 	public Map<String, Double> getPValues() {
 		return pValues;
 	}
-	
+
 	/**
 	 * Get the p-value for a specified label for the data sets contained in
 	 * this RelativeFrequencyAnalyzer object
-	 *
 	 * @param label the label for which to get the z-score
 	 * @return the z-score for the given label
 	 */
 	private double getPValue(String label) {
 		return pValues.getOrDefault(label, 0.0);
 	}
-	
+
 	// TODO Don't recalculate randMean
 	// calculates z-scores for this Statistical Analysis object
-	private void calculateZScores(Map<String, List<Double>> randGraphRelFreqs,
-	                              Map<String, Double> targetGraphRelFreqs) {
-		
-		//System.out.println("randGraphRelFreqs..." + randGraphRelFreqs);
-		
-		HashSet<String> alllabels = new HashSet<String>();
-		
-		alllabels.addAll(targetGraphRelFreqs.keySet());
-		alllabels.addAll(randGraphRelFreqs.keySet());
-		for (String label : alllabels) {
-			double zScore = 0.0;
-			if (!randGraphRelFreqs.containsKey(label))
-				zScore = Double.POSITIVE_INFINITY;
-			else {
-				
-				List<Double> freqs = randGraphRelFreqs.get(label);
-				double targetGraphFreq = targetGraphRelFreqs.getOrDefault(label, 0.0);
-				
-				zScore = calcZscore(freqs, targetGraphFreq);
-			}
-			zScores.put(label, zScore);
-			
-		}
-  
-		/*for (Map.Entry<String, List<Double>> labelFreqPair :
+	private void calculateZScores ( Map<String, List<Double>> randGraphRelFreqs,
+									Map<String, Double> targetGraphRelFreqs) {
+		for (Map.Entry<String, List<Double>> labelFreqPair :
 				randGraphRelFreqs.entrySet()) {
 			String label = labelFreqPair.getKey();
 			List<Double> freqs = labelFreqPair.getValue();
@@ -144,28 +114,8 @@ public final class RelativeFrequencyAnalyzer {
 			}
 			zScores.put(label, zScore);
 		}
-            */
 	}
-	
-	private double calcZscore(List<Double> freqs, double targetGraphFreq) {
-		double randMean = calcMean(freqs);
-		double randStdDev = calcStdDev(randMean, freqs);
-		double numerator = targetGraphFreq - randMean;
-		
-		double zScore = 0.0;
-		if (randStdDev != 0) {
-			zScore = numerator / randStdDev;
-		} else {
-			if (numerator > 0)
-				zScore = Double.POSITIVE_INFINITY;
-			if (numerator == 0)
-				zScore = 0.0;
-			else
-				zScore = Double.NEGATIVE_INFINITY;
-		}
-		return zScore;
-	}
-	
+
 	// calculates the standard deviation for a random
 	private double calcStdDev(double randMean, List<Double> values) {
 		double variance = 0.0;
@@ -176,28 +126,18 @@ public final class RelativeFrequencyAnalyzer {
 		}
 		return Math.sqrt(variance / (values.size() - 1));
 	}
-	
+
 	// calculates the p-values for this object
 	private void calculatePValues(Map<String, List<Double>> randGraphRelFreqs,
 	                              Map<String, Double> targetGraphRelFreqs) {
-		HashSet<String> alllabels = new HashSet<String>();
-		
-		alllabels.addAll(targetGraphRelFreqs.keySet());
-		alllabels.addAll(randGraphRelFreqs.keySet());
-		
-		for (String label : alllabels) {
-			double pValue = calcPValue(label, randGraphRelFreqs,
-					targetGraphRelFreqs);
-			pValues.put(label, pValue);
-		}
-		/*for(String label : randGraphRelFreqs.keySet())
+		for(String label : randGraphRelFreqs.keySet())
 		{
 			double pValue = calcPValue(label, randGraphRelFreqs,
 					targetGraphRelFreqs);
 			pValues.put(label, pValue);
-		}*/
+		}
 	}
-	
+
 	// calculates a p-value for an specified label
 	private double calcPValue(String label,
 	                          Map<String, List<Double>> randomGraphRelFreqs,
@@ -208,7 +148,7 @@ public final class RelativeFrequencyAnalyzer {
 		if (!randomGraphRelFreqs.containsKey(label)) {
 			return 0;
 		}
-		
+
 		// This shouldn't happen with the current design, but in case the design
 		// changes to include functionality to display all labels found in the
 		// random graphs instead of just those in the target graph, this will
@@ -216,7 +156,7 @@ public final class RelativeFrequencyAnalyzer {
 		if (!targetGraphRelFreqs.containsKey(label)) {
 			return 1;
 		}
-		
+
 		int prePValue = 0;
 		List<Double> randFreqs = randomGraphRelFreqs.get(label);
 		double targetFreq = targetGraphRelFreqs.get(label);
@@ -228,16 +168,16 @@ public final class RelativeFrequencyAnalyzer {
 		double randFreqCount = randFreqs.size();
 		return (double) prePValue / randFreqCount;
 	}
-	
+
 	//
 	private double calcMean(List<Double> values) {
 		double total = 0.0;
-		for (double randFreq : values) {
+		for (double randFreq : values ) {
 			total += randFreq;
 		}
 		return total / values.size();
 	}
-	
+
 	@Override
 	public String toString() {
 		NumberFormat nf = new DecimalFormat("0.000");
@@ -249,7 +189,6 @@ public final class RelativeFrequencyAnalyzer {
 			if (targetLabelToRelativeFrequencies.containsKey(label)) {
 				double targetGraphRelFreqPerc =
 						targetLabelToRelativeFrequencies.get(label) * 100.0;
-				//System.out.println("label="+label+",Freq="+targetGraphRelFreqPerc);
 				sb.append(nf.format(targetGraphRelFreqPerc));
 			} else {
 				sb.append(nf.format(0.0));
