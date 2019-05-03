@@ -39,7 +39,7 @@ public class ComputingController {
 			return NetworkMotifResponse.initWithMessage("Error! File is empty!");
 		}
 		ResponseBean responseBean;
-		responseBean = new NetworkMotifResponse(motifSize, randGraph, file.getOriginalFilename());
+		responseBean = new NetworkMotifResponse(motifSize, randGraph, directed == 1, file.getOriginalFilename());
 		Path filePath = storageService.storeFile(file);
 		
 		if (filePath == null) {
@@ -73,7 +73,7 @@ public class ComputingController {
 			return NetworkMotifResponse.initWithMessage("Error! File is empty!");
 		}
 		ResponseBean responseBean;
-		responseBean = new NetworkMotifResponse(motifSize, randGraph, file.getOriginalFilename());
+		responseBean = new NetworkMotifResponse(motifSize, randGraph, directed == 1, file.getOriginalFilename());
 		Path filePath = storageService.storeFile(file);
 		
 		if (filePath == null) {
@@ -107,7 +107,7 @@ public class ComputingController {
 			return NetworkMotifResponse.initWithMessage("Error! File is empty!");
 		}
 		ResponseBean responseBean;
-		responseBean = new NetworkMotifResponse(motifSize, randGraph, file.getOriginalFilename());
+		responseBean = new NetworkMotifResponse(motifSize, randGraph, directed == 1, file.getOriginalFilename());
 		Path filePath = storageService.storeFile(file);
 		
 		if (filePath == null) {

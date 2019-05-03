@@ -66,10 +66,10 @@ public class ComputingService {
 		Map<String, Double> targetLabelToRelativeFrequency =
 				targetGraphAnalyzer.analyze(targetGraph, motifSize);
 		
-		System.out.println("targetLabelToRelativeFrequency=" + targetLabelToRelativeFrequency);
+		// System.out.println("targetLabelToRelativeFrequency=" + targetLabelToRelativeFrequency);
 		
 		// Step 2: generate random graphs
-		System.out.println("Generating " + randGraphCount + " random graph...");
+		// System.out.println("Generating " + randGraphCount + " random graph...");
 		
 		// Create enumeration class, and start sampling
 		SubgraphEnumerator randESU = new RandESU(prob);
@@ -79,14 +79,14 @@ public class ComputingService {
 		// The results are saved to randomLabelToRelativeFrequencies
 		Map<String, List<Double>> randomLabelToRelativeFrequencies = randomGraphAnalyzer.analyze(targetGraph, motifSize);
 		
-		System.out.println("randomLabelToRelativeFrequencies=" + randomLabelToRelativeFrequencies);
+		// System.out.println("randomLabelToRelativeFrequencies=" + randomLabelToRelativeFrequencies);
 		
 		//STEP 3: Determine network motifs through statistical analysis
 		RelativeFrequencyAnalyzer relativeFrequencyAnalyzer =
 				new RelativeFrequencyAnalyzer(randomLabelToRelativeFrequencies, targetLabelToRelativeFrequency);
 		
-		System.out.println(relativeFrequencyAnalyzer);
-		System.out.println("SubraphCount Compete");
+		// System.out.println(relativeFrequencyAnalyzer);
+		// System.out.println("SubraphCount Compete");
 		
 		responseBean.setResults("Running time = " + (System.currentTimeMillis() - time) + "ms\n" +
 				relativeFrequencyAnalyzer.toString());
@@ -136,10 +136,10 @@ public class ComputingService {
 		// The frequency will be represented as percentage (relative frequency)
 		Map<String, Double> targetLabelToRelativeFrequency = targetGraphAnalyzer.analyze(targetGraph, motifSize);
 		
-		System.out.println("targetLabelToRelativeFrequency=" + targetLabelToRelativeFrequency);
+		// System.out.println("targetLabelToRelativeFrequency=" + targetLabelToRelativeFrequency);
 		
 		// Step 2: generate random graphs
-		System.out.println("Generating " + randGraphCount + " random graph...");
+		// System.out.println("Generating " + randGraphCount + " random graph...");
 		
 		// Create enumeration class, and start sampling
 		SubgraphEnumerator randESU = new RandESU(prob);
@@ -150,22 +150,24 @@ public class ComputingService {
 		// The results are saved to randomLabelToRelativeFrequencies
 		Map<String, List<Double>> randomLabelToRelativeFrequencies = randomGraphAnalyzer.analyze(targetGraph, motifSize);
 		
-		System.out.println("randomLabelToRelativeFrequencies=" + randomLabelToRelativeFrequencies);
+		// System.out.println("randomLabelToRelativeFrequencies=" + randomLabelToRelativeFrequencies);
+		
 		// STEP 3: Determine network motifs through statistical analysis
 		RelativeFrequencyAnalyzer relativeFrequencyAnalyzer =
 				new RelativeFrequencyAnalyzer(randomLabelToRelativeFrequencies, targetLabelToRelativeFrequency);
-		System.out.println(relativeFrequencyAnalyzer);
+		
+		// System.out.println(relativeFrequencyAnalyzer);
 		
 		// Display the nemoprofile result based on pvalue < 0.05.
 		// If the file name is null, "NemoProfile.txt" is default.
 		// If the nametoindex map is not given (given as null), then the nemoprofile provide as index instead of original vertex name
-		SubgraphProfile built = NemoProfileBuilder.buildwithPvalue(subgraphCount,
-				relativeFrequencyAnalyzer, 0.05, "NemoProfile.txt", targetGraph.getNameToIndexMap());
+		SubgraphProfile built = NemoProfileBuilder.buildwithPvalue(subgraphCount, relativeFrequencyAnalyzer,
+				0.05, "NemoProfile.txt", targetGraph.getNameToIndexMap());
 		
 		// Print the result in screen
-		System.out.println("NemoProfile=\n" + built + "\n");
-		
-		System.out.println("SubgraphProfile Compete");
+		// System.out.println("NemoProfile=\n" + built + "\n");
+		//
+		// System.out.println("SubgraphProfile Compete");
 		
 		responseBean.setResults("Running time = " + (System.currentTimeMillis() - time) + "ms\n" +
 				relativeFrequencyAnalyzer.toString());
@@ -179,7 +181,7 @@ public class ComputingService {
 	 * To go different option, just comment out all the method from this line until encounter 33333333333333333333333333333333333333333
 	 */
 	public boolean CalculateNemoCollection(String fileName, int motifSize, int randGraphCount, boolean directed,
-	                                    List<Double> prob, ResponseBean responseBean) {
+	                                       List<Double> prob, ResponseBean responseBean) {
 		long time = System.currentTimeMillis();
 		
 		if (motifSize < 3) {
@@ -220,10 +222,10 @@ public class ComputingService {
 		// The frequency will be represented as percentage (relative frequency)
 		Map<String, Double> targetLabelToRelativeFrequency = targetGraphAnalyzer.analyze(targetGraph, motifSize);
 		
-		System.out.println("targetLabelToRelativeFrequency=" + targetLabelToRelativeFrequency);
+		// System.out.println("targetLabelToRelativeFrequency=" + targetLabelToRelativeFrequency);
 		
 		// Step 2: generate random graphs
-		System.out.println("Generating " + randGraphCount + " random graph...");
+		// System.out.println("Generating " + randGraphCount + " random graph...");
 		
 		// Create enumeration class, and start sampling
 		SubgraphEnumerator randESU = new RandESU(prob);
@@ -233,17 +235,20 @@ public class ComputingService {
 		// The results are saved to randomLabelToRelativeFrequencies
 		Map<String, List<Double>> randomLabelToRelativeFrequencies = randomGraphAnalyzer.analyze(targetGraph, motifSize);
 		
-		System.out.println("randomLabelToRelativeFrequencies=" + randomLabelToRelativeFrequencies);
+		// System.out.println("randomLabelToRelativeFrequencies=" + randomLabelToRelativeFrequencies);
 		
 		// STEP 3: Determine network motifs through statistical analysis
-		RelativeFrequencyAnalyzer relativeFrequencyAnalyzer = new RelativeFrequencyAnalyzer(randomLabelToRelativeFrequencies, targetLabelToRelativeFrequency);
-		System.out.println(relativeFrequencyAnalyzer);
+		RelativeFrequencyAnalyzer relativeFrequencyAnalyzer =
+				new RelativeFrequencyAnalyzer(randomLabelToRelativeFrequencies, targetLabelToRelativeFrequency);
+		
+		// System.out.println(relativeFrequencyAnalyzer);
 		
 		// This is optional, if the user want to collect all subgraphs with canonical label in a file
 		// Write the nemocollection result based on zscore thresh (anything with >=2 is collected) .
-		System.out.println("Writing network motif instances to NemoCollection file");
+		// System.out.println("Writing network motif instances to NemoCollection file");
+		
 		NemoCollectionBuilder.buildwithZScore(subgraphCount, relativeFrequencyAnalyzer,
-				2, "NemoCollectionZscore.txt", targetGraph.getNameToIndexMap());
+				2.0, "NemoCollectionZscore.txt", targetGraph.getNameToIndexMap());
 		
 		// Write the nemocollection result based on pvalue thresh (anything with <0.05 is collected) .
 		NemoCollectionBuilder.buildwithPvalue(subgraphCount, relativeFrequencyAnalyzer,
@@ -251,9 +256,9 @@ public class ComputingService {
 		
 		// Write the subgraph collection
 		NemoCollectionBuilder.buildwithPvalue(subgraphCount, relativeFrequencyAnalyzer,
-				1, "SubgraphCollection.txt", targetGraph.getNameToIndexMap());
+				1.0, "SubgraphCollection.txt", targetGraph.getNameToIndexMap());
 		
-		System.out.println("NemoCollection Compete");
+		// System.out.println("NemoCollection Compete");
 		
 		responseBean.setResults("Running time = " + (System.currentTimeMillis() - time) + "ms\n" +
 				relativeFrequencyAnalyzer.toString());

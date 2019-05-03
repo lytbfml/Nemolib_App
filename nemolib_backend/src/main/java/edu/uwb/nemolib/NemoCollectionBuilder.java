@@ -135,7 +135,6 @@ public class NemoCollectionBuilder {
 			}
 			reader.close();
 			WriteFileBuffer.close();
-			
 		} catch (IOException Ex) {
 			System.out.println(Ex.getMessage());
 		}

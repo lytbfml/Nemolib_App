@@ -55,11 +55,9 @@ public class SubgraphCollection implements SubgraphEnumerationResult {
 	}
 	
 	public SubgraphCollection() {
-		
 		String filename = "SubgraphCollectionG6.txt";
 		Filename = filename;
 		init();
-		
 	}
 	
 	private void init() {
