@@ -9,8 +9,10 @@ public class NetworkMotifResponse implements ResponseBean {
 	private String results;
 	private String optional;
 	
-	public NetworkMotifResponse(int motifSize, int randSize, String fileName) {
-		this.message = "Motif size: " + motifSize + "\n" + "Random graph size: " + randSize + "\n" +
+	public NetworkMotifResponse(int motifSize, int randSize, boolean directed, String fileName) {
+		this.message = "Motif size: " + motifSize + "\n" +
+				"Random graph size: " + randSize + "\n" +
+				"Directed: " + directed + "\n" +
 				"File: " + fileName + "\n";
 	}
 	

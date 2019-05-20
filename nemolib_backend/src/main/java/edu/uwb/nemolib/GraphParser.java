@@ -1,7 +1,9 @@
 package edu.uwb.nemolib;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
@@ -13,19 +15,25 @@ import java.util.*;
  * Self edges and unconnected vertices are not allowed.
  */
 public class GraphParser {
-
+	
 	// prevent instantiation of default constructor
 	private GraphParser() {throw new AssertionError();}
-
+	
+	
 	/**
 	 * Parses a text file into a Graph object.
+	 *
 	 * @param filename the file containing the edge data
 	 * @return a Graph object with the correct mapping
 	 * @throws IOException if input file cannot be found
 	 */
 	public static Graph parse(String filename) throws IOException {
+		return GraphParser.parse(filename, false);
+	}
+	
+	public static Graph parse(String filename, boolean directed) throws IOException {
 		Map<String, Integer> nameToIndex = new HashMap<>();
-		Graph output = new Graph();
+		Graph output = new Graph(directed);
 		// we read in all the data at once only so we can easily randomize it
 		// with Collections.shuffle()
 		BufferedReader reader = new BufferedReader(new FileReader(filename));
@@ -36,23 +44,31 @@ public class GraphParser {
 			currentLine = reader.readLine();
 		}
 		reader.close();
-
+		
 		// avoid clustering (data collection bias) by randomly parsing the
 		// input lines of data
 		Collections.shuffle(lines);
-
+		
 		String delimiters = "\\s+"; // one or more whitespace characters
-		for (String line:lines) {
+		for (String line : lines) {
 			String[] edge = line.split(delimiters);
+			
 			int fromIndex = output.getOrCreateIndex(edge[0], nameToIndex);
-			int toIndex   = output.getOrCreateIndex(edge[1], nameToIndex);
-
-			// don't addSubgraph self edges
+			int toIndex = output.getOrCreateIndex(edge[1], nameToIndex);
+			// changed 8/22/2018 so that remove DirAdjList, but still differentiate
 			if (fromIndex != toIndex) {
 				output.getAdjacencyList(fromIndex).add(toIndex);
-				output.getAdjacencyList(toIndex).add(fromIndex);
+				if (directed)
+					output.getAdjacencyList(toIndex).add((-1) * fromIndex);
+				else
+					output.getAdjacencyList(toIndex).add(fromIndex);
 			}
 		}
+		
+		output.setNameToIndexMap(nameToIndex);
+		
 		return output;
 	}
+	
+	
 }

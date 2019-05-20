@@ -39,7 +39,7 @@ body {
 }
 
 .cleanBtn {
-  margin-left: 16px;
+  margin-left: 0px;
 }
 
 table {
@@ -52,4 +52,20 @@ table {
   margin-right: 1%;
   font-size: 14px;
   width: 98%;
+}
+
+.dirSection {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.dirSel {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.otherSel {
+  margin-right: 10px;
 }
