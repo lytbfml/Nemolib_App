@@ -17,6 +17,7 @@ body {
 
 .jumbotron {
   width: 50%;
+  min-width: 700px;
 }
 
 .mat-radio-button ~ .mat-radio-button {
@@ -52,4 +53,11 @@ table {
   margin-right: 1%;
   font-size: 14px;
   width: 98%;
+}
+
+.probabilities input {
+  min-width: 46px;
+  padding: 0;
+  padding-left: 10px;
+  text-align: center
 }
