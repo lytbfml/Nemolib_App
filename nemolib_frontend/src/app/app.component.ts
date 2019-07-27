@@ -59,6 +59,7 @@ export class AppComponent implements OnInit {
     npFinshed = false;
     invalidCount = 0;
     directed = false;
+    graphType = '0';
 
     ngOnInit() {
         this.formDoc = this.fb.group({
@@ -92,7 +93,7 @@ export class AppComponent implements OnInit {
             const formdata: FormData = new FormData();
             formdata.append('motifSize', this.mSControl.value);
             formdata.append('randSize', this.rSControl.value);
-            formdata.append('directed', this.directed ? '1' : '0');
+            formdata.append('directed', this.graphType);
             formdata.append('file', this.formDoc.get('reFile').value.files[0]);
             if (this.probSel === '1') {
                 for (let i = 0; i < this.mSControl.value; i++) {

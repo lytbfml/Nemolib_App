@@ -9,8 +9,8 @@ import {NetworkMotifResults} from './Model/NetworkMotifResults';
     providedIn: 'root'
 })
 export class ApiService {
-    private BASE_URL = 'http://bioresearch02p.uwb.edu:8082/' + '/compute';
-    // private BASE_URL = 'http://localhost:8082' + '/compute';
+    // private BASE_URL = 'http://bioresearch02p.uwb.edu:8082/' + '/compute';
+    private BASE_URL = 'http://localhost:8082' + '/compute';
     private SUBMIT_NETWORKMOTIF_URL = `${this.BASE_URL}/networkmotif/`;
     private SUBMIT_NEMOPROFILE_URL = `${this.BASE_URL}/nemoprofile/`;
     private SUBMIT_NEMOCOLLECTION_URL = `${this.BASE_URL}/nemocollect/`;
