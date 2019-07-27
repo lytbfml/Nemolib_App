@@ -57,7 +57,6 @@ export class AppComponent implements OnInit {
     resultsGet: boolean;
     currentFileUpload: boolean;
     npFinshed = false;
-    invalidCount = 0;
     directed = false;
     graphType = '0';
 
@@ -89,7 +88,6 @@ export class AppComponent implements OnInit {
         this.resultsGet = false;
         this.dataSource = null;
         if (this.validation()) {
-            this.invalidCount = 0;
             const formdata: FormData = new FormData();
             formdata.append('motifSize', this.mSControl.value);
             formdata.append('randSize', this.rSControl.value);
@@ -109,10 +107,7 @@ export class AppComponent implements OnInit {
         } else {
             this.submitted = false;
             this.currentFileUpload = false;
-            this.invalidCount += 1;
-            if (this.invalidCount >= 3) {
-                alert('Please enter all parameters');
-            }
+            alert('Please enter all parameters');
             return;
         }
     }
