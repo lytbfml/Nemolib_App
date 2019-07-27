@@ -69,10 +69,3 @@ table {
 .otherSel {
   margin-right: 10px;
 }
-
-
-.probabilities input {
-  min-width: 46px;
-  padding: 0 0 0 10px;
-  text-align: center
-}

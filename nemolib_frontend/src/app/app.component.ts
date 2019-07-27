@@ -49,15 +49,14 @@ export class AppComponent implements OnInit {
         Validators.min(10)
     ]);
 
-    probSel: string;
-    opSel: string;
+    probSel = '1';
+    opSel = '1';
     prob = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5];
     response: NetworkMotifResults;
     submitted: boolean;
     resultsGet: boolean;
     currentFileUpload: boolean;
     npFinshed = false;
-    directed = false;
     graphType = '0';
 
     ngOnInit() {
