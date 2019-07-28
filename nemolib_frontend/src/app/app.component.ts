@@ -1,13 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {FileInput, FileValidator} from 'ngx-material-file-input';
-import {HttpClient, HttpEventType, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
-import {NetworkMotif} from './Model/NetworkMotif';
+import {FileValidator} from 'ngx-material-file-input';
+import {HttpEventType, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
 import {ApiService} from './api.service';
 import {NetworkMotifResults} from './Model/NetworkMotifResults';
-import {of} from 'rxjs';
 import {NemoProfile} from './Model/NemoProfile';
+import * as uuid from 'uuid';
+
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -134,10 +134,12 @@ export class AppComponent implements OnInit {
                     }
                 },
                 err => {
-                    alert('An error occurred while saving the file ' + err.toString());
+                    alert('Sorry, an error occurred, please check your input file or contact us');
+                    window.location.reload();
                 }
             );
         } else if (this.opSel === '2') {
+            formdata.append('uuid', this.formDoc.get('reFile').value.files[0].name + uuid.v4());
             this.apiService.submitNemoProfile(formdata).subscribe(
                 res => {
                     if (res.type === HttpEventType.UploadProgress) {
@@ -159,10 +161,12 @@ export class AppComponent implements OnInit {
                     }
                 },
                 err => {
-                    alert('An error occurred while saving the file ' + err.toString());
+                    alert('Sorry, an error occurred, please check your input file or contact us');
+                    window.location.reload();
                 }
             );
         } else if (this.opSel === '3') {
+            formdata.append('uuid', this.formDoc.get('reFile').value.files[0].name + uuid.v4());
             this.apiService.submitNemoCollection(formdata).subscribe(
                 res => {
                     if (res.type === HttpEventType.UploadProgress) {
@@ -184,7 +188,8 @@ export class AppComponent implements OnInit {
                     }
                 },
                 err => {
-                    alert('An error occurred while saving the file ' + err.toString());
+                    alert('Sorry, an error occurred, please check your input file or contact us');
+                    window.location.reload();
                 }
             );
         }

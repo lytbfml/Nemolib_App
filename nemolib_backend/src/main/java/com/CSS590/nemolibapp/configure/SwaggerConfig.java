@@ -1,4 +1,4 @@
-package com.CSS590.nemolibapp.Configure;
+package com.CSS590.nemolibapp.configure;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

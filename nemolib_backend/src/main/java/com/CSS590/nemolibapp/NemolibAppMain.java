@@ -1,6 +1,6 @@
 package com.CSS590.nemolibapp;
 
-import com.CSS590.nemolibapp.Property.FileStorageProperties;
+import com.CSS590.nemolibapp.configure.FileStorageProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

@@ -1,8 +1,10 @@
-package com.CSS590.nemolibapp.Services;
+package com.CSS590.nemolibapp.services;
 
-import com.CSS590.nemolibapp.Model.ResponseBean;
+import com.CSS590.nemolibapp.model.ResponseBean;
 import edu.uwb.nemolib.*;
 import org.springframework.stereotype.Service;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,6 +15,8 @@ import java.util.Map;
  */
 @Service
 public class ComputingService {
+	
+	final Logger logger = LogManager.getLogger(ComputingService.class);
 	
 	public ComputingService() {}
 	
@@ -27,9 +31,11 @@ public class ComputingService {
 	 * If the graph or motif size is big, this method is recommended.
 	 * To go different option, just comment out all the method from this line until encounter
 	 */
-	public boolean CalculateNetworkMotif(String fileName, int motifSize, int randGraphCount, boolean directed,
-	                                     List<Double> prob, ResponseBean responseBean) {
+	public boolean CalculateNetworkMotif(final String fileName, final int motifSize, final int randGraphCount,
+	                                     final boolean directed, final List<Double> prob, final ResponseBean responseBean) {
+		
 		long time = System.currentTimeMillis();
+		logger.info("Start CalculateNetworkMotif");
 		
 		if (motifSize < 3) {
 			System.err.println("Motif size must be 3 or larger");
@@ -37,8 +43,8 @@ public class ComputingService {
 			return false;
 		}
 		// parse input graph
-		// System.out.println("Parsing target graph...");
-		Graph targetGraph = null;
+		logger.debug("Parsing target graph...");
+		final Graph targetGraph;
 		try {
 			targetGraph = GraphParser.parse(fileName, directed);
 		} catch (IOException e) {
@@ -48,48 +54,25 @@ public class ComputingService {
 			return false;
 		}
 		
-		// If want to save the name to index map to the file
-		targetGraph.write_nametoIndex("Name_Index.txt");
-		
 		SubgraphCount subgraphCount = new SubgraphCount();
-		
-		// Create a class that will enuerate all subgraphs.
-		// If not want do full enumeration, provide probabilities for each tree level
 		SubgraphEnumerator targetGraphESU = new ESU(prob);
 		
-		// Will enumerate all subgraphs and results will be written in subgraphCount
-		TargetGraphAnalyzer targetGraphAnalyzer =
-				new TargetGraphAnalyzer(targetGraphESU, subgraphCount);
+		TargetGraphAnalyzer trgtGraphAnalyzer = new TargetGraphAnalyzer(targetGraphESU, subgraphCount);
 		
+		Map<String, Double> tgtFreqMap = trgtGraphAnalyzer.analyze(targetGraph, motifSize);
 		
-		// The frequency will be represented as percentage (relative frequency)
-		Map<String, Double> targetLabelToRelativeFrequency =
-				targetGraphAnalyzer.analyze(targetGraph, motifSize);
-		
-		// System.out.println("targetLabelToRelativeFrequency=" + targetLabelToRelativeFrequency);
-		
-		// Step 2: generate random graphs
-		// System.out.println("Generating " + randGraphCount + " random graph...");
-		
-		// Create enumeration class, and start sampling
+		logger.debug("Target label to relative frequency: " + tgtFreqMap);
+		logger.debug("Step 2: Generating " + randGraphCount + " random graph...");
 		SubgraphEnumerator randESU = new RandESU(prob);
+		logger.debug("Random graph analyze...");
+		RandomGraphAnalyzer randGraphAnalyzer = new RandomGraphAnalyzer(randESU, randGraphCount);
+		Map<String, List<Double>> randFreqMap = randGraphAnalyzer.analyze(targetGraph, motifSize);
 		
-		RandomGraphAnalyzer randomGraphAnalyzer = new RandomGraphAnalyzer(randESU, randGraphCount);
-		
-		// The results are saved to randomLabelToRelativeFrequencies
-		Map<String, List<Double>> randomLabelToRelativeFrequencies = randomGraphAnalyzer.analyze(targetGraph, motifSize);
-		
-		// System.out.println("randomLabelToRelativeFrequencies=" + randomLabelToRelativeFrequencies);
-		
-		//STEP 3: Determine network motifs through statistical analysis
-		RelativeFrequencyAnalyzer relativeFrequencyAnalyzer =
-				new RelativeFrequencyAnalyzer(randomLabelToRelativeFrequencies, targetLabelToRelativeFrequency);
-		
-		// System.out.println(relativeFrequencyAnalyzer);
-		// System.out.println("SubraphCount Compete");
+		logger.debug("Step 3: Determine network motifs through statistical analysis...");
+		RelativeFrequencyAnalyzer relativeFreqAnalyzer = new RelativeFrequencyAnalyzer(randFreqMap, tgtFreqMap);
 		
 		responseBean.setResults("Running time = " + (System.currentTimeMillis() - time) + "ms\n" +
-				relativeFrequencyAnalyzer.toString());
+				relativeFreqAnalyzer.toString());
 		return true;
 	}
 	
@@ -101,6 +84,8 @@ public class ComputingService {
 	 */
 	public boolean CalculateNemoProfile(String fileName, int motifSize, int randGraphCount, boolean directed,
 	                                    List<Double> prob, ResponseBean responseBean) {
+		logger.info("Start CalculateNemoProfile");
+		
 		long time = System.currentTimeMillis();
 		
 		if (motifSize < 3) {
@@ -108,8 +93,8 @@ public class ComputingService {
 			responseBean.setResults("Motif size must be 3 or larger");
 			return false;
 		}
-		// parse input graph
-		// System.out.println("Parsing target graph...");
+		
+		logger.debug("Parsing target graph...");
 		Graph targetGraph = null;
 		try {
 			targetGraph = GraphParser.parse(fileName, directed);
@@ -121,7 +106,7 @@ public class ComputingService {
 		}
 		
 		// If want to save the name to index map to the file
-		targetGraph.write_nametoIndex("Name_Index.txt");
+		// targetGraph.write_nametoIndex("Name_Index.txt");
 		
 		//If want to provide with Profile
 		SubgraphProfile subgraphCount = new SubgraphProfile();
@@ -182,6 +167,8 @@ public class ComputingService {
 	 */
 	public boolean CalculateNemoCollection(String fileName, int motifSize, int randGraphCount, boolean directed,
 	                                       List<Double> prob, ResponseBean responseBean) {
+		logger.info("Start CalculateNemoCollection");
+		
 		long time = System.currentTimeMillis();
 		
 		if (motifSize < 3) {
@@ -202,7 +189,7 @@ public class ComputingService {
 		}
 		
 		// If want to save the name to index map to the file
-		targetGraph.write_nametoIndex("Name_Index.txt");
+		// targetGraph.write_nametoIndex("Name_Index.txt");
 		
 		// If want to provide collections with instances written "Results.txt" file.
 		// SubgraphCollection subgraphCount = new SubgraphCollection("Results.txt");

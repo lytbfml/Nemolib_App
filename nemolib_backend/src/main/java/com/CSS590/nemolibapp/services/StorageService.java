@@ -1,8 +1,9 @@
-package com.CSS590.nemolibapp.Services;
+package com.CSS590.nemolibapp.services;
 
-import com.CSS590.nemolibapp.Property.FileStorageProperties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.CSS590.nemolibapp.configure.FileStorageProperties;
+import com.CSS590.nemolibapp.support.MyFileNotFoundException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
@@ -21,7 +22,7 @@ import java.util.stream.Stream;
 @Service
 public class StorageService {
 	private final Path dirPath;
-	Logger log = LoggerFactory.getLogger(this.getClass().getName());
+	Logger logger = LogManager.getLogger(this.getClass().getName());
 	
 	public StorageService(FileStorageProperties fileStorageProperties) {
 		
@@ -30,7 +31,7 @@ public class StorageService {
 		try {
 			Files.createDirectories(this.dirPath);
 		} catch (Exception ex) {
-			System.out.println("Could not create the upload directory : " + ex);
+			logger.error("Could not create the upload directory : " + ex.getMessage());
 		}
 	}
 	
@@ -48,7 +49,7 @@ public class StorageService {
 			Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 			return targetLocation;
 		} catch (IOException ex) {
-			System.out.println("Could not store file: " + fileName + ". Please try again!\n" + ex);
+			logger.error("Could not store file: " + fileName + ". Please try again!\n" + ex.getMessage());
 			return null;
 		}
 	}
@@ -61,34 +62,23 @@ public class StorageService {
 		return null;
 	}
 	
-	Resource loadAsResource(String fileName) {
-		// try {
-		// 	Path filePath = this.dirPath.resolve(fileName).normalize();
-		// 	Resource resource = new UrlResource(filePath.toUri());
-		// 	if (resource.exists()) {
-		// 		return resource;
-		// 	} else {
-		// 		System.out.println("File not found " + fileName);
-		// 	}
-		// } catch (MalformedURLException e) {
-		// 	System.out.println("File not found " + fileName + "\n" + e);
-		// }
-		// return null;
+	public Resource loadAsResource(String fileName) {
 		try {
 			Path file = dirPath.resolve(fileName);
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {
 				return resource;
 			} else {
-				throw new RuntimeException("FAIL! Cannot load file " + fileName +
-						                           ", file does not exist or not readable");
+				logger.error("Cannot load file " + fileName + ", file does not exist or not readable");
+				throw new MyFileNotFoundException("File not found " + fileName);
 			}
-		} catch (MalformedURLException e) {
-			throw new RuntimeException("FAIL! Cannot load file " + fileName);
+		} catch (MalformedURLException ex) {
+			logger.error("Cannot load file " + fileName);
+			throw new MyFileNotFoundException("File not found " + fileName, ex);
 		}
 	}
 	
-	public void deleteAll() {
+	private void deleteAll() {
 		FileSystemUtils.deleteRecursively(dirPath.toFile());
 	}
 	

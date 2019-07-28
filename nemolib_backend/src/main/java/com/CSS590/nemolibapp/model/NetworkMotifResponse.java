@@ -1,4 +1,4 @@
-package com.CSS590.nemolibapp.Model;
+package com.CSS590.nemolibapp.model;
 
 /**
  * @author Yangxiao on 3/13/2019.

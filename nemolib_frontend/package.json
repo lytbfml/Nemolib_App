@@ -34,6 +34,7 @@
     "package.json": "^2.0.1",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
+    "uuid": "^3.3.2",
     "web-animations-js": "2.3.1",
     "zone.js": "~0.8.26"
   },

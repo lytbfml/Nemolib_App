@@ -1,4 +1,4 @@
-package com.CSS590.nemolibapp.Model;
+package com.CSS590.nemolibapp.model;
 
 import org.springframework.web.multipart.MultipartFile;
 

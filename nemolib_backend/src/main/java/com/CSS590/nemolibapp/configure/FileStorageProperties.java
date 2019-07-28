@@ -1,4 +1,4 @@
-package com.CSS590.nemolibapp.Property;
+package com.CSS590.nemolibapp.configure;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

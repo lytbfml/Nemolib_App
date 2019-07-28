@@ -17,7 +17,6 @@ body {
 
 .jumbotron {
   width: 50%;
-  min-width: 700px;
 }
 
 .mat-radio-button ~ .mat-radio-button {
