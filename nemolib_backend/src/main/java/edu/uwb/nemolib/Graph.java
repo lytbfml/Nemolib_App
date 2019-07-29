@@ -87,7 +87,7 @@ public class Graph implements Serializable {
 	public boolean addEdge(int vertexA, int vertexB) {
 		// Will not allow zero-index vertex
 		if (vertexA == 0 || vertexB == 0) {
-			System.out.println("Will not allow zero vertex-index");
+			// System.out.println("Will not allow zero vertex-index");
 			return false;
 		}
 		
@@ -148,7 +148,7 @@ public class Graph implements Serializable {
 	public String toString() {
 		Set<Edge> edges = new HashSet<>();
 		for (int i = 1; i < adjacencyLists.size(); i++) {
-			System.out.println("i=" + i);
+			// System.out.println("i=" + i);
 			AdjacencyList curAdjList = adjacencyLists.get(i);
 			CompactHashSet.Iter adjListItr = curAdjList.iterator();
 			while (adjListItr.hasNext()) {

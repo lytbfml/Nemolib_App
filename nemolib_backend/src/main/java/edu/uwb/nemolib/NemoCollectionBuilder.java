@@ -59,11 +59,7 @@ public class NemoCollectionBuilder {
 				nm_can_g6.add(nm_label);
 			}
 		}
-		
 		writeToFile(sp, sa, writefilename, nm_can_g6, nametoIndex);
-		
-		
-		return;
 	}
 	
 	
@@ -88,8 +84,6 @@ public class NemoCollectionBuilder {
 		}
 		
 		writeToFile(sp, sa, writefilename, nm_can_g6, nametoIndex);
-		
-		return;
 	}
 	
 	private static void writeToFile(SubgraphCollection sp,
@@ -138,8 +132,6 @@ public class NemoCollectionBuilder {
 		} catch (IOException Ex) {
 			System.out.println(Ex.getMessage());
 		}
-		
-		return;
 	}
 	
 	

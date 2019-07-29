@@ -37,7 +37,6 @@ public class SubgraphCount implements SubgraphEnumerationResult {
 		labelFreqMap.put(label, total);
 	}
 	
-	// uses interface's JavaDoc comment
 	@Override
 	public void label() {
 		// get the canonical labels, which should be ordered.
@@ -60,7 +59,6 @@ public class SubgraphCount implements SubgraphEnumerationResult {
 		}
 		
 		labelFreqMap = canLabelFreqMap;
-		
 	}
 	
 	@Override

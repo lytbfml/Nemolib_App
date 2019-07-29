@@ -40,7 +40,7 @@ public class SubgraphCollection implements SubgraphEnumerationResult {
 	}*/
 	
 	// Implement 4/18/2019
-	private String Filename;
+	private final String filename;
 	private BufferedWriter WriteFileBuffer;
 	
 	private Map<String, Integer> labelFreqMap; // collect subgraph count
@@ -49,14 +49,13 @@ public class SubgraphCollection implements SubgraphEnumerationResult {
 	private Map<String, String> g6CanLabelMap;
 	
 	public SubgraphCollection(String filename) {
-		Filename = filename;
+		this.filename = filename;
 		init();
 		
 	}
 	
 	public SubgraphCollection() {
-		String filename = "SubgraphCollectionG6.txt";
-		Filename = filename;
+		this.filename = "SubgraphCollectionG6.txt";
 		init();
 	}
 	
@@ -64,7 +63,7 @@ public class SubgraphCollection implements SubgraphEnumerationResult {
 		// Initialize the hashmap that maps g6 to cannon
 		labelFreqMap = new HashMap<String, Integer>();
 		try {
-			WriteFileBuffer = new BufferedWriter(new FileWriter(Filename));
+			WriteFileBuffer = new BufferedWriter(new FileWriter(filename));
 		} catch (IOException Ex) {
 			System.out.println(Ex.getMessage());
 		}
@@ -73,7 +72,7 @@ public class SubgraphCollection implements SubgraphEnumerationResult {
 	
 	
 	public String getFilename() {
-		return Filename;
+		return filename;
 	}
 	
 	public Map<String, Integer> getlabelFreqMap() {

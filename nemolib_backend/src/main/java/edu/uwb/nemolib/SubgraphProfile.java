@@ -22,7 +22,6 @@ public class SubgraphProfile implements SubgraphEnumerationResult, Serializable 
 	 * Construct a SubgraphProfile object
 	 */
 	public SubgraphProfile() {
-		System.out.println("SubgraphProfile");
 		labelToVertexToFrequency = new HashMap<>();
 	}
 	
@@ -187,8 +186,6 @@ public class SubgraphProfile implements SubgraphEnumerationResult, Serializable 
        /* @Override
         public String toString() {	
             
-            System.out.println();
-		
                 // Will fill out the labelFreq
                 Map<Integer, Map<String,Integer>> vertexToLabelFreq =new TreeMap<Integer, Map<String, Integer>>();
                 for (Map.Entry<String, Map<Integer, Integer>> labelFreqs :

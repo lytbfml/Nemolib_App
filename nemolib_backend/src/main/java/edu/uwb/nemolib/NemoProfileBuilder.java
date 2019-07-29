@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 /**
@@ -29,9 +28,9 @@ public class NemoProfileBuilder {
 						sp.getFrequencies(labelPValue.getKey()));
 			}
 		}
-		// Now write the file as a text
-		if (filename == null)
+		if (filename == null || filename.isEmpty()) {
 			filename = "NemoProfile.txt";
+		}
 		writeNemoProfile(result, filename, nametoIndex);
 		
 		return result;
@@ -78,7 +77,6 @@ public class NemoProfileBuilder {
 			vertices.addAll(vertexFreq.keySet());
 		}
 		
-		// Write to a file
 		try {
 			BufferedWriter WriteFileBuffer = new BufferedWriter(new FileWriter(filename));
 			// Write a first line as a label
