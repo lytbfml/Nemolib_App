@@ -3,12 +3,11 @@ This application uses API [UWB Nemolibrary](https://github.com/drewandersen/nemo
 
 
 We used [Angular](https://angular.io/) (v7.3.5) for the front end, and [Spring Boot](https://spring.io) (v2.1.2.RELEASE) for the back end.  
-Both of the front-end and back-end applications are deployed on my AWS.  
-To access the back end api, please go to [Swagger UI](http://54.202.6.246:8080/swagger-ui.html#/). (Only available in US West)  
-To acces the front end web page, please go to [NemoLib Application](http://nemolib.s3-website-us-west-2.amazonaws.com/).  
-Note the above links might be invalid because I am using my personal AWS account and I only have one EC2 instance for US West.
+Both of the front-end and back-end applications are deployed on UW's server.  
+To access the back end api, please go to [Swagger UI](http://bioresearch02p.uwb.edu:8082/swagger-ui.html). (Only available in US West)  
+To acces the front end web page, please go to [NemoLib Application](http://bioresearch02p.uwb.edu/biores/yw/).  
 
-To learn more, please contact wyxiao@uw.edu, hsuy717@uw.edu.
+To learn more, please contact wyxiao@uw.edu, hsuy717@uw.edu, and kimw6@uw.edu.
 
 ## Getting Start
 To run the program on your own server, please read the following
@@ -43,15 +42,13 @@ and compile Spring Boot:
 ```
 mvn package
 ```
-Then copy the jar file under the nemolib_backend folder
-```
-cp target/<name>.jar ./
-```
+Then put the jar file and labelg into the same directory
+
 Start the spring boot application
 ```
 java -jar <name>.jar
 ```
-Note the server address will be localhost:8080
+Note the server address will be localhost:8082 if you did not change application properties
 
 3. Go to folder [nemolib_frontend](nemolib_frontend)
 and install modules:
@@ -63,7 +60,7 @@ Then start the server
 ng serve
 ```
 Note the server address will be localhost:4200, however you can change it to 4201 by add `--port 4201`  
-And change the permission of the labelg program: `chmod u+x src/main/resources/labelg`
+And change the permission of the labelg program: `chmod u+x labelg`
 
 ## Advanced Topics
 
