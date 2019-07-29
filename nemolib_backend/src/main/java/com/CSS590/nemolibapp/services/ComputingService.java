@@ -1,12 +1,17 @@
 package com.CSS590.nemolibapp.services;
 
+import com.CSS590.nemolibapp.configure.FileStorageProperties;
+import com.CSS590.nemolibapp.model.FileResponse;
 import com.CSS590.nemolibapp.model.ResponseBean;
 import edu.uwb.nemolib.*;
-import org.springframework.stereotype.Service;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -16,9 +21,15 @@ import java.util.Map;
 @Service
 public class ComputingService {
 	
-	final Logger logger = LogManager.getLogger(ComputingService.class);
+	private final Logger logger = LogManager.getLogger(ComputingService.class);
+	private final Path dirPath;
+	private final String dirPathSep;
 	
-	public ComputingService() {}
+	public ComputingService(FileStorageProperties fileStorageProperties) {
+		this.dirPath = Paths.get(fileStorageProperties.getWorkDir()).toAbsolutePath().normalize();
+		this.dirPathSep = this.dirPath.getFileName() + File.separator;
+		logger.debug("Current workdir: " + this.dirPath);
+	}
 	
 	/**
 	 * Provide three output options from here.
@@ -33,8 +44,7 @@ public class ComputingService {
 	 */
 	public boolean CalculateNetworkMotif(final String fileName, final int motifSize, final int randGraphCount,
 	                                     final boolean directed, final List<Double> prob, final ResponseBean responseBean) {
-		
-		long time = System.currentTimeMillis();
+		final long time = System.currentTimeMillis();
 		logger.info("Start CalculateNetworkMotif");
 		
 		if (motifSize < 3) {
@@ -42,14 +52,13 @@ public class ComputingService {
 			responseBean.setResults("Motif size must be 3 or larger");
 			return false;
 		}
-		// parse input graph
 		logger.debug("Parsing target graph...");
 		final Graph targetGraph;
 		try {
 			targetGraph = GraphParser.parse(fileName, directed);
 		} catch (IOException e) {
 			System.err.println("Could not process " + fileName);
-			System.err.println(e);
+			System.err.println(e.getMessage());
 			responseBean.setResults("Could not process " + fileName);
 			return false;
 		}
@@ -70,9 +79,7 @@ public class ComputingService {
 		
 		logger.debug("Step 3: Determine network motifs through statistical analysis...");
 		RelativeFrequencyAnalyzer relativeFreqAnalyzer = new RelativeFrequencyAnalyzer(randFreqMap, tgtFreqMap);
-		
-		responseBean.setResults("Running time = " + (System.currentTimeMillis() - time) + "ms\n" +
-				relativeFreqAnalyzer.toString());
+		setRes(responseBean, time, relativeFreqAnalyzer.toString());
 		return true;
 	}
 	
@@ -82,81 +89,51 @@ public class ComputingService {
 	 * If the graph or motif size is big, this method is recommended.
 	 * To go different option, just comment out all the method from this line until encounter
 	 */
-	public boolean CalculateNemoProfile(String fileName, int motifSize, int randGraphCount, boolean directed,
-	                                    List<Double> prob, ResponseBean responseBean) {
+	public String CalculateNemoProfile(String uuid, String fileName, int motifSize, int randGraphCount,
+	                                   boolean directed, List<Double> prob, FileResponse responseBean) {
 		logger.info("Start CalculateNemoProfile");
-		
-		long time = System.currentTimeMillis();
+		final long time = System.currentTimeMillis();
 		
 		if (motifSize < 3) {
 			System.err.println("Motif size must be 3 or larger");
 			responseBean.setResults("Motif size must be 3 or larger");
-			return false;
+			return null;
 		}
 		
 		logger.debug("Parsing target graph...");
-		Graph targetGraph = null;
+		Graph targetGraph;
 		try {
 			targetGraph = GraphParser.parse(fileName, directed);
 		} catch (IOException e) {
 			System.err.println("Could not process " + fileName);
-			System.err.println(e);
+			System.err.println(e.getMessage());
 			responseBean.setResults("Could not process " + fileName);
-			return false;
+			return null;
 		}
 		
-		// If want to save the name to index map to the file
-		// targetGraph.write_nametoIndex("Name_Index.txt");
-		
-		//If want to provide with Profile
 		SubgraphProfile subgraphCount = new SubgraphProfile();
-		
-		// Create a class that will enuerate all subgraphs.
-		// If not want do full enumeration, provide probabilities for each tree level
 		SubgraphEnumerator targetGraphESU = new ESU(prob);
 		
-		// Will enumerate all subgraphs and results will be written in subgraphCount
-		TargetGraphAnalyzer targetGraphAnalyzer = new TargetGraphAnalyzer(targetGraphESU, subgraphCount);
-		
-		// The frequency will be represented as percentage (relative frequency)
-		Map<String, Double> targetLabelToRelativeFrequency = targetGraphAnalyzer.analyze(targetGraph, motifSize);
-		
-		// System.out.println("targetLabelToRelativeFrequency=" + targetLabelToRelativeFrequency);
-		
-		// Step 2: generate random graphs
-		// System.out.println("Generating " + randGraphCount + " random graph...");
-		
-		// Create enumeration class, and start sampling
+		TargetGraphAnalyzer trgtGraphAnalyzer = new TargetGraphAnalyzer(targetGraphESU, subgraphCount);
+		Map<String, Double> tgtFreqMap = trgtGraphAnalyzer.analyze(targetGraph, motifSize);
+		logger.debug("Target label to relative frequency: " + tgtFreqMap);
+		logger.debug("Step 2: Generating " + randGraphCount + " random graph...");
 		SubgraphEnumerator randESU = new RandESU(prob);
+		logger.debug("Random graph analyze...");
+		RandomGraphAnalyzer randGraphAnalyzer = new RandomGraphAnalyzer(randESU, randGraphCount);
 		
-		RandomGraphAnalyzer randomGraphAnalyzer =
-				new RandomGraphAnalyzer(randESU, randGraphCount);
+		Map<String, List<Double>> randFreqMap = randGraphAnalyzer.analyze(targetGraph, motifSize);
+		// logger.debug("random Label To Relative Frequencies=" + randFreqMap);
+		logger.debug("Step 3: Determine network motifs through statistical analysis...");
+		RelativeFrequencyAnalyzer relativeFreqAnalyzer = new RelativeFrequencyAnalyzer(randFreqMap, tgtFreqMap);
 		
-		// The results are saved to randomLabelToRelativeFrequencies
-		Map<String, List<Double>> randomLabelToRelativeFrequencies = randomGraphAnalyzer.analyze(targetGraph, motifSize);
-		
-		// System.out.println("randomLabelToRelativeFrequencies=" + randomLabelToRelativeFrequencies);
-		
-		// STEP 3: Determine network motifs through statistical analysis
-		RelativeFrequencyAnalyzer relativeFrequencyAnalyzer =
-				new RelativeFrequencyAnalyzer(randomLabelToRelativeFrequencies, targetLabelToRelativeFrequency);
-		
-		// System.out.println(relativeFrequencyAnalyzer);
-		
-		// Display the nemoprofile result based on pvalue < 0.05.
-		// If the file name is null, "NemoProfile.txt" is default.
-		// If the nametoindex map is not given (given as null), then the nemoprofile provide as index instead of original vertex name
-		SubgraphProfile built = NemoProfileBuilder.buildwithPvalue(subgraphCount, relativeFrequencyAnalyzer,
-				0.05, "NemoProfile.txt", targetGraph.getNameToIndexMap());
-		
-		// Print the result in screen
-		// System.out.println("NemoProfile=\n" + built + "\n");
-		//
-		// System.out.println("SubgraphProfile Compete");
-		
-		responseBean.setResults("Running time = " + (System.currentTimeMillis() - time) + "ms\n" +
-				relativeFrequencyAnalyzer.toString());
-		return true;
+		String resFileName = uuid + "_nemoProfile.txt";
+		logger.debug("Building results based on pvalue < 0.05 " + resFileName);
+		NemoProfileBuilder.buildwithPvalue(subgraphCount, relativeFreqAnalyzer,
+				0.05, this.dirPathSep + resFileName, targetGraph.getNameToIndexMap());
+		logger.trace("SubgraphProfile Compete");
+		setRes(responseBean, time, relativeFreqAnalyzer.toString());
+		return setFileRes(resFileName, responseBean);
 	}
 	
 	/**
@@ -165,27 +142,26 @@ public class ComputingService {
 	 * It is recormended to use for moderate graph size or motif size.
 	 * To go different option, just comment out all the method from this line until encounter 33333333333333333333333333333333333333333
 	 */
-	public boolean CalculateNemoCollection(String fileName, int motifSize, int randGraphCount, boolean directed,
-	                                       List<Double> prob, ResponseBean responseBean) {
+	public String CalculateNemoCollection(String uuid, String fileName, int motifSize, int randGraphCount,
+	                                      boolean directed, List<Double> prob, FileResponse responseBean) {
 		logger.info("Start CalculateNemoCollection");
-		
-		long time = System.currentTimeMillis();
+		final long time = System.currentTimeMillis();
 		
 		if (motifSize < 3) {
 			System.err.println("Motif size must be 3 or larger");
 			responseBean.setResults("Motif size must be 3 or larger");
-			return false;
+			return null;
 		}
-		// parse input graph
-		// System.out.println("Parsing target graph...");
-		Graph targetGraph = null;
+		
+		logger.debug("Parsing target graph...");
+		Graph targetGraph;
 		try {
 			targetGraph = GraphParser.parse(fileName, directed);
 		} catch (IOException e) {
 			System.err.println("Could not process " + fileName);
-			System.err.println(e);
+			System.err.println(e.getMessage());
 			responseBean.setResults("Could not process " + fileName);
-			return false;
+			return null;
 		}
 		
 		// If want to save the name to index map to the file
@@ -197,59 +173,54 @@ public class ComputingService {
 		// Default file name is "SubgraphCollectionResult.txt"
 		
 		// Create subgraphCount instance which will collect results in SubgraphCollectionG6.txt
-		SubgraphCollection subgraphCount = new SubgraphCollection();
+		SubgraphCollection subgraphCount = new SubgraphCollection(this.dirPathSep + uuid + "_subG6.txt");
 		
-		// Create a class that will enuerate all subgraphs.
-		// If not want do full enumeration, provide probabilities for each tree level
 		SubgraphEnumerator targetGraphESU = new ESU(prob);
-		
-		// Will enumerate all subgraphs and results will be written in subgraphCount
-		TargetGraphAnalyzer targetGraphAnalyzer = new TargetGraphAnalyzer(targetGraphESU, subgraphCount);
-		
-		// The frequency will be represented as percentage (relative frequency)
-		Map<String, Double> targetLabelToRelativeFrequency = targetGraphAnalyzer.analyze(targetGraph, motifSize);
-		
-		// System.out.println("targetLabelToRelativeFrequency=" + targetLabelToRelativeFrequency);
-		
-		// Step 2: generate random graphs
-		// System.out.println("Generating " + randGraphCount + " random graph...");
-		
-		// Create enumeration class, and start sampling
+		TargetGraphAnalyzer trgtGraphAnalyzer = new TargetGraphAnalyzer(targetGraphESU, subgraphCount);
+		Map<String, Double> tgtFreqMap = trgtGraphAnalyzer.analyze(targetGraph, motifSize);
+		logger.debug("Target label to relative frequency: " + tgtFreqMap);
+		logger.debug("Step 2: Generating " + randGraphCount + " random graph...");
 		SubgraphEnumerator randESU = new RandESU(prob);
+		RandomGraphAnalyzer randGraphAnalyzer = new RandomGraphAnalyzer(randESU, randGraphCount);
+		Map<String, List<Double>> randFreqMap = randGraphAnalyzer.analyze(targetGraph, motifSize);
 		
-		RandomGraphAnalyzer randomGraphAnalyzer = new RandomGraphAnalyzer(randESU, randGraphCount);
-		
-		// The results are saved to randomLabelToRelativeFrequencies
-		Map<String, List<Double>> randomLabelToRelativeFrequencies = randomGraphAnalyzer.analyze(targetGraph, motifSize);
-		
-		// System.out.println("randomLabelToRelativeFrequencies=" + randomLabelToRelativeFrequencies);
-		
-		// STEP 3: Determine network motifs through statistical analysis
-		RelativeFrequencyAnalyzer relativeFrequencyAnalyzer =
-				new RelativeFrequencyAnalyzer(randomLabelToRelativeFrequencies, targetLabelToRelativeFrequency);
-		
-		// System.out.println(relativeFrequencyAnalyzer);
+		// logger.debug("random Label To Relative Frequencies=" + randFreqMap);
+		logger.debug("Step 3: Determine network motifs through statistical analysis...");
+		RelativeFrequencyAnalyzer relativeFreqAnalyzer = new RelativeFrequencyAnalyzer(randFreqMap, tgtFreqMap);
 		
 		// This is optional, if the user want to collect all subgraphs with canonical label in a file
 		// Write the nemocollection result based on zscore thresh (anything with >=2 is collected) .
-		// System.out.println("Writing network motif instances to NemoCollection file");
-		
-		NemoCollectionBuilder.buildwithZScore(subgraphCount, relativeFrequencyAnalyzer,
+		logger.trace("Write the nemocollection result based on zscore thresh (anything with >=2 is collected) .");
+		NemoCollectionBuilder.buildwithZScore(subgraphCount, relativeFreqAnalyzer,
 				2.0, "NemoCollectionZscore.txt", targetGraph.getNameToIndexMap());
 		
-		// Write the nemocollection result based on pvalue thresh (anything with <0.05 is collected) .
-		NemoCollectionBuilder.buildwithPvalue(subgraphCount, relativeFrequencyAnalyzer,
+		logger.trace("Write the nemocollection result based on pvalue thresh (anything with <0.05 is collected).");
+		NemoCollectionBuilder.buildwithPvalue(subgraphCount, relativeFreqAnalyzer,
 				0.05, "NemoCollectionPValue.txt", targetGraph.getNameToIndexMap());
 		
-		// Write the subgraph collection
-		NemoCollectionBuilder.buildwithPvalue(subgraphCount, relativeFrequencyAnalyzer,
-				1.0, "SubgraphCollection.txt", targetGraph.getNameToIndexMap());
+		String resFileName = uuid + "_subCol.txt";
+		logger.trace("Write the subgraph collection to " + resFileName);
+		NemoCollectionBuilder.buildwithPvalue(subgraphCount, relativeFreqAnalyzer,
+				1.0, this.dirPathSep + resFileName, targetGraph.getNameToIndexMap());
 		
-		// System.out.println("NemoCollection Compete");
+		logger.trace("NemoCollection Compete");
 		
-		responseBean.setResults("Running time = " + (System.currentTimeMillis() - time) + "ms\n" +
-				relativeFrequencyAnalyzer.toString());
-		return true;
+		setRes(responseBean, time, relativeFreqAnalyzer.toString());
+		return setFileRes(resFileName, responseBean);
 	}
 	
+	private void setRes(ResponseBean responseBean, long time, String relaFreqAna) {
+		responseBean.setResults("Running time = " + (System.currentTimeMillis() - time) + "ms\n" + relaFreqAna);
+	}
+	
+	private String setFileRes(String resFileName, FileResponse responseBean) {
+		File file = new File(this.dirPathSep + resFileName);
+		if (file.exists()) {
+			responseBean.setFilename(resFileName);
+			responseBean.setSize(file.length() / 1024);
+			return resFileName;
+		} else {
+			return "no";
+		}
+	}
 }

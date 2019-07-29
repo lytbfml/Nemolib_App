@@ -1,8 +1,6 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpEvent, HttpRequest} from '@angular/common/http';
+import {HttpClient, HttpEvent, HttpHeaders, HttpRequest, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {NetworkMotif} from './Model/NetworkMotif';
-import {NetworkMotifResults} from './Model/NetworkMotifResults';
 
 
 @Injectable({
@@ -40,5 +38,16 @@ export class ApiService {
             responseType: 'text'
         });
         return this.http.request(req);
+    }
+
+    downloadFile(url: string): Observable<HttpResponse<string>> {
+        let headers = new HttpHeaders();
+        headers = headers.append('Accept', '*/*');
+        headers = headers.append('Access-Control-Allow-Origin', '*');
+        return this.http.get(url, {
+            headers,
+            observe: 'response',
+            responseType: 'text'
+        });
     }
 }

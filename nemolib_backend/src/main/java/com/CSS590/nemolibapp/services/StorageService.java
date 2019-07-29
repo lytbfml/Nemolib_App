@@ -22,16 +22,18 @@ import java.util.stream.Stream;
 @Service
 public class StorageService {
 	private final Path dirPath;
-	Logger logger = LogManager.getLogger(this.getClass().getName());
+	private final Path downLoadPath;
+	Logger logger = LogManager.getLogger(StorageService.class);
 	
 	public StorageService(FileStorageProperties fileStorageProperties) {
 		
 		this.dirPath = Paths.get(fileStorageProperties.getUploadDir()).toAbsolutePath().normalize();
-		
+		this.downLoadPath = Paths.get(fileStorageProperties.getWorkDir()).toAbsolutePath().normalize();
 		try {
 			Files.createDirectories(this.dirPath);
+			Files.createDirectories(this.downLoadPath);
 		} catch (Exception ex) {
-			logger.error("Could not create the upload directory : " + ex.getMessage());
+			logger.error("Could not create the directory : " + ex.getMessage());
 		}
 	}
 	
@@ -64,7 +66,7 @@ public class StorageService {
 	
 	public Resource loadAsResource(String fileName) {
 		try {
-			Path file = dirPath.resolve(fileName);
+			Path file = downLoadPath.resolve(fileName);
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {
 				return resource;

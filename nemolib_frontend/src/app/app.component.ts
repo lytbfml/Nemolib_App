@@ -1,12 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
-import {ErrorStateMatcher, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {ErrorStateMatcher, MatPaginator, MatTableDataSource} from '@angular/material';
 import {FileValidator} from 'ngx-material-file-input';
-import {HttpEventType, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
-import {ApiService} from './api.service';
-import {NetworkMotifResults} from './Model/NetworkMotifResults';
-import {NemoProfile} from './Model/NemoProfile';
+import {HttpEventType, HttpResponse} from '@angular/common/http';
+import {ApiService} from './services/api.service';
+import {NetworkMotifResults} from './model/NetworkMotifResults';
+import {NemoProfile} from './model/NemoProfile';
 import * as uuid from 'uuid';
+import {FileResults} from './model/FileResults';
+import * as fileSaver from 'file-saver';
 
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -15,6 +17,11 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
         const isSubmitted = form && form.submitted;
         return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
     }
+}
+
+export interface DownloadFiles {
+    name: string;
+    url: string;
 }
 
 @Component({
@@ -31,7 +38,9 @@ export class AppComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     dataSource: MatTableDataSource<NemoProfile>;
-    displayedColumns: string[] = ['label', 'nodeid', 'frequency'];
+    // displayedColumns: string[] = ['label', 'nodeid', 'frequency'];
+    displayedColumns: string[] = ['name', 'url'];
+    downloadFileData: DownloadFiles[] = [];
     progress: { percentage: number } = {percentage: 0};
     results = '';
     maxSize = 104857600; // maximum size = 100mb
@@ -53,11 +62,13 @@ export class AppComponent implements OnInit {
     opSel = '1';
     prob = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5];
     response: NetworkMotifResults;
+    fileResponse: FileResults;
     submitted: boolean;
     resultsGet: boolean;
     currentFileUpload: boolean;
     npFinshed = false;
     graphType = '0';
+    fileSystemName: string;
 
     ngOnInit() {
         this.formDoc = this.fb.group({
@@ -139,7 +150,9 @@ export class AppComponent implements OnInit {
                 }
             );
         } else if (this.opSel === '2') {
-            formdata.append('uuid', this.formDoc.get('reFile').value.files[0].name + uuid.v4());
+            let ids = this.formDoc.get('reFile').value.files[0].name + '_' + uuid.v4();
+            ids = ids.replace(/-/g, '');
+            formdata.append('uuid', ids);
             this.apiService.submitNemoProfile(formdata).subscribe(
                 res => {
                     if (res.type === HttpEventType.UploadProgress) {
@@ -150,9 +163,10 @@ export class AppComponent implements OnInit {
                         }
                     } else if (res instanceof HttpResponse) {
                         this.results += 'File is completely uploaded!\n';
-                        this.response = JSON.parse(res.body.toString());
-                        this.results += this.response.message;
-                        this.results += this.response.results;
+                        this.fileResponse = JSON.parse(res.body.toString());
+                        this.results += this.fileResponse.message;
+                        this.results += this.fileResponse.results;
+                        this.showFileDownload();
                         this.results += '\n';
                         this.results += '-------------------------------------End of Results------------------------------------\n\n';
                         this.currentFileUpload = false;
@@ -166,7 +180,9 @@ export class AppComponent implements OnInit {
                 }
             );
         } else if (this.opSel === '3') {
-            formdata.append('uuid', this.formDoc.get('reFile').value.files[0].name + uuid.v4());
+            let ids = this.formDoc.get('reFile').value.files[0].name + '_' + uuid.v4();
+            ids = ids.replace(/-/g, '');
+            formdata.append('uuid', ids);
             this.apiService.submitNemoCollection(formdata).subscribe(
                 res => {
                     if (res.type === HttpEventType.UploadProgress) {
@@ -177,9 +193,10 @@ export class AppComponent implements OnInit {
                         }
                     } else if (res instanceof HttpResponse) {
                         this.results += 'File is completely uploaded!\n';
-                        this.response = JSON.parse(res.body.toString());
-                        this.results += this.response.message;
-                        this.results += this.response.results;
+                        this.fileResponse = JSON.parse(res.body.toString());
+                        this.results += this.fileResponse.message;
+                        this.results += this.fileResponse.results;
+                        this.showFileDownload();
                         this.results += '\n';
                         this.results += '-------------------------------------End of Results------------------------------------\n\n';
                         this.currentFileUpload = false;
@@ -192,6 +209,28 @@ export class AppComponent implements OnInit {
                     window.location.reload();
                 }
             );
+        }
+    }
+
+    downloadFile(fileName: string, url: string) {
+        this.apiService.downloadFile(url).subscribe(response => {
+            this.saveFile(response.body, fileName);
+        });
+    }
+
+    saveFile(data: any, filename?: string) {
+        const blob = new Blob([data], {type: 'text/plain'});
+        fileSaver.saveAs(blob, filename);
+    }
+
+    showFileDownload() {
+        if (this.fileResponse.optional == null || this.fileResponse.optional === '') {
+            this.downloadFileData = this.downloadFileData.concat([{
+                name: this.fileResponse.filename,
+                url: this.fileResponse.url
+            }]);
+        } else {
+            this.results += 'No File generated\n';
         }
     }
 
@@ -227,7 +266,7 @@ export class AppComponent implements OnInit {
 
     cleanResults() {
         this.results = '';
-        this.dataSource = null;
+        this.downloadFileData = [];
     }
 }
 

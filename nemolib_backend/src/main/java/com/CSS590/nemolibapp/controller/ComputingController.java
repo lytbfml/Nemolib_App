@@ -1,5 +1,6 @@
 package com.CSS590.nemolibapp.controller;
 
+import com.CSS590.nemolibapp.model.FileResponse;
 import com.CSS590.nemolibapp.model.NetworkMotifResponse;
 import com.CSS590.nemolibapp.model.ResponseBean;
 import com.CSS590.nemolibapp.services.ComputingService;
@@ -7,14 +8,15 @@ import com.CSS590.nemolibapp.services.StorageService;
 import com.CSS590.nemolibapp.support.ResourceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.core.io.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -31,7 +33,7 @@ import java.util.List;
 @RequestMapping("compute")
 public class ComputingController {
 	
-	final Logger logger = LogManager.getLogger(ComputingController.class);
+	private final Logger logger = LogManager.getLogger(ComputingController.class);
 	
 	@Autowired
 	private StorageService storageService;
@@ -47,103 +49,100 @@ public class ComputingController {
 	                                    @RequestParam(name = "directed") int directed,
 	                                    @RequestParam(name = "file") MultipartFile file,
 	                                    @RequestParam(value = "prob[]") Double[] prob) {
-		logger.trace("Start getNetworkMotif, file name " + file.getOriginalFilename());
+		logger.debug("get network motif");
 		
 		if (file == null || file.isEmpty()) {
 			throw new ResourceException(HttpStatus.BAD_REQUEST, "Error! File is empty");
 		}
-		ResponseBean responseBean;
-		responseBean = new NetworkMotifResponse(motifSize, randGraph, directed == 1, file.getOriginalFilename());
+		logger.trace("Start getNetworkMotif, file name " + file.getOriginalFilename());
+		
+		ResponseBean responseBean = new NetworkMotifResponse(motifSize, randGraph,
+				directed == 1, file.getOriginalFilename());
 		Path filePath = storageService.storeFile(file);
 		
 		if (filePath == null) {
 			responseBean.setResults("Error, cannot upload file: " + file.getName());
-			throw new ResourceException(HttpStatus.BAD_REQUEST, "Error, cannot upload file" + file.getOriginalFilename());
+			throw new ResourceException(HttpStatus.BAD_REQUEST,
+					"Error, cannot upload file" + file.getOriginalFilename());
 		}
 		
 		String x = Paths.get(".").toAbsolutePath().normalize().toString();
 		List<Double> probs = Arrays.asList(prob);
 		boolean success = cService.CalculateNetworkMotif(filePath.toString(), motifSize, randGraph,
 				directed == 1, probs, responseBean);
+		if (!success) {
+			throw new ResourceException(HttpStatus.BAD_REQUEST, "Unknown error");
+		}
 		logger.trace("Return result");
 		return responseBean;
 	}
 	
 	@CrossOrigin()
+	@ExceptionHandler(ResourceException.class)
 	@RequestMapping(value = "nemoprofile", method = RequestMethod.POST)
-	public ResponseBean getNemoProfile(@RequestParam(name = "uuid") String uuid,
+	public FileResponse getNemoProfile(@RequestParam(name = "uuid") String uuid,
 	                                   @RequestParam(name = "motifSize") int motifSize,
 	                                   @RequestParam(name = "randSize") int randGraph,
 	                                   @RequestParam(name = "directed") int directed,
 	                                   @RequestParam(name = "file") MultipartFile file,
 	                                   @RequestParam(value = "prob[]") Double[] prob) {
-		logger.trace("getNemoProfile");
-		logger.debug("user with id: " + uuid);
+		logger.debug("get NemoProfile with id: " + uuid);
 		
 		if (file == null || file.isEmpty()) {
 			throw new ResourceException(HttpStatus.BAD_REQUEST, "Error! File is empty");
 		}
-		ResponseBean responseBean;
-		responseBean = new NetworkMotifResponse(motifSize, randGraph, directed == 1, file.getOriginalFilename());
+		FileResponse responseBean = new FileResponse(motifSize, randGraph,
+				directed == 1, file.getOriginalFilename());
 		Path filePath = storageService.storeFile(file);
 		
 		if (filePath == null) {
 			responseBean.setResults("Error, cannot upload file: " + file.getName());
-			return responseBean;
+			throw new ResourceException(HttpStatus.BAD_REQUEST,
+					"Error, cannot upload file" + file.getOriginalFilename());
 		}
 		
-		if (prob == null) {
-			responseBean.setResults("Error, please enter probabilities!");
-			return responseBean;
-		}
-		
-		String x = Paths.get(".").toAbsolutePath().normalize().toString();
 		List<Double> probs = Arrays.asList(prob);
-		boolean success = cService.CalculateNemoProfile(filePath.toString(), motifSize, randGraph,
+		String filename = cService.CalculateNemoProfile(uuid, filePath.toString(), motifSize, randGraph,
 				directed == 1, probs, responseBean);
-		logger.trace("Return result");
-		return responseBean;
+		return processResults(filename, responseBean);
 	}
 	
 	@CrossOrigin()
+	@ExceptionHandler(ResourceException.class)
 	@RequestMapping(value = "nemocollect", method = RequestMethod.POST)
-	public ResponseBean getNemoCollection(@RequestParam(name = "uuid") String uuid,
+	public FileResponse getNemoCollection(@RequestParam(name = "uuid") String uuid,
 	                                      @RequestParam(name = "motifSize") int motifSize,
 	                                      @RequestParam(name = "randSize") int randGraph,
 	                                      @RequestParam(name = "directed") int directed,
 	                                      @RequestParam(name = "file") MultipartFile file,
 	                                      @RequestParam(value = "prob[]") Double[] prob) {
-		logger.trace("getNemoCollection");
-		logger.debug("user with id: " + uuid);
+		logger.debug("get NemoCollection with id: " + uuid);
 		
 		if (file == null || file.isEmpty()) {
-			NetworkMotifResponse.initWithMessage("File is empty!");
-			return NetworkMotifResponse.initWithMessage("Error! File is empty!");
+			throw new ResourceException(HttpStatus.BAD_REQUEST, "Error! File is empty");
 		}
-		ResponseBean responseBean;
-		responseBean = new NetworkMotifResponse(motifSize, randGraph, directed == 1, file.getOriginalFilename());
+		FileResponse responseBean = new FileResponse(motifSize, randGraph,
+				directed == 1, file.getOriginalFilename());
 		Path filePath = storageService.storeFile(file);
 		
 		if (filePath == null) {
 			responseBean.setResults("Error, cannot upload file: " + file.getName());
-			return responseBean;
+			throw new ResourceException(HttpStatus.BAD_REQUEST,
+					"Error, cannot upload file" + file.getOriginalFilename());
 		}
 		
-		if (prob == null) {
-			responseBean.setResults("Error, please enter probabilities!");
-			return responseBean;
-		}
-		
-		String x = Paths.get(".").toAbsolutePath().normalize().toString();
 		List<Double> probs = Arrays.asList(prob);
-		boolean success = cService.CalculateNemoCollection(filePath.toString(), motifSize, randGraph,
+		String filename = cService.CalculateNemoCollection(uuid, filePath.toString(), motifSize, randGraph,
 				directed == 1, probs, responseBean);
-		logger.trace("Return result");
-		return responseBean;
+		return processResults(filename, responseBean);
 	}
 	
-	@GetMapping("/downloadFile/{fileName:.+}")
-	public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
+	@CrossOrigin()
+	@RequestMapping(value = "/downloadFile/{fileName}", method = RequestMethod.GET)
+	public ResponseEntity<Resource> downloadFile(@PathVariable("fileName") String fileName,
+	                                             HttpServletRequest request) {
+		logger.debug("Start downloadFile " + fileName);
+		
 		// Load file as Resource
 		Resource resource = storageService.loadAsResource(fileName);
 		
@@ -156,13 +155,34 @@ public class ComputingController {
 		}
 		
 		// Fallback to the default content type if type could not be determined
-		if(contentType == null) {
-			contentType = "application/octet-stream";
+		if (contentType == null) {
+			contentType = "octet-stream";
 		}
 		
 		return ResponseEntity.ok()
 				.contentType(MediaType.parseMediaType(contentType))
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
 				.body(resource);
+	}
+	
+	private FileResponse processResults(String filename, FileResponse responseBean) {
+		if (filename == null) {
+			throw new ResourceException(HttpStatus.BAD_REQUEST, "Unknown error");
+		} else if (filename.equals("no")) {
+			responseBean.setOptional("No file generated");
+			return responseBean;
+		}
+		setFileDownloadUrl(responseBean, filename);
+		logger.trace("Return result");
+		return responseBean;
+	}
+	
+	private void setFileDownloadUrl(FileResponse responseBean, String name) {
+		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path("/compute/downloadFile/")
+				.path(name)
+				.toUriString();
+		logger.debug(fileDownloadUri);
+		responseBean.setUrl(fileDownloadUri);
 	}
 }
