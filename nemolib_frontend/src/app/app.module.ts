@@ -51,11 +51,14 @@ import {
     MatTooltipModule,
     MatTreeModule,
 } from '@angular/material';
+import { ExampleComponent } from './example/example.component';
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        ExampleComponent
     ],
+    entryComponents:[ExampleComponent],
     imports: [
         BrowserModule,
         MaterialFileInputModule,

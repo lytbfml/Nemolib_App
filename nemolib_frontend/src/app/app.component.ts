@@ -8,6 +8,8 @@ import {ApiService} from './api.service';
 import {NetworkMotifResults} from './Model/NetworkMotifResults';
 import {of} from 'rxjs';
 import {NemoProfile} from './Model/NemoProfile';
+import {MatDialog} from '@angular/material';
+import { ExampleComponent } from './example/example.component';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -23,9 +25,13 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-    constructor(private fb: FormBuilder, private apiService: ApiService) {
+    constructor(private fb: FormBuilder, private apiService: ApiService, public dialog:MatDialog) {
         this.mSControl.setValue('3');
         this.rSControl.setValue('10');
+    }
+
+    openDialog() {
+        this.dialog.open(ExampleComponent);
     }
 
     @ViewChild(MatPaginator) paginator: MatPaginator;

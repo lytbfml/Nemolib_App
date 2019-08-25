@@ -1,14 +1,20 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
-        <h2 id="mainTitle">Network Motif</h2>
+        <h2 id="mainTitle">NemoSuite</h2>
     </div>
     <div class="row justify-content-center">
-        <h4 id="subTitle">A motif detection program</h4>
+        <h4 id="subTitle">A network http://bioresearch02p.uwb.edu/biores/yw/motif detection program</h4>
     </div>
 </div>
 
 <div class="row justify-content-center">
     <div class="jumbotron">
+        <div class="row">
+            <div class="col float-right">
+                <button mat-raised-button class= "btn float-right" color="primary" (click)="openDialog()">Example</button>
+            </div>
+        </div>
+        <br>
         <form>
             <mat-card>
                     <form [formGroup]="formDoc" novalidate>
@@ -181,7 +187,6 @@
             </table>
             <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
         </div>
-
     </div>
 </div>
 
