@@ -127,10 +127,13 @@ public class ComputingService {
 		logger.debug("Step 3: Determine network motifs through statistical analysis...");
 		RelativeFrequencyAnalyzer relativeFreqAnalyzer = new RelativeFrequencyAnalyzer(randFreqMap, tgtFreqMap);
 		
-		String resFileName = uuid + "_nemoProfile.txt";
+		String resFileName = uuid + "_subProfile.txt";
 		logger.debug("Building results based on pvalue < 0.05 " + resFileName);
+		// NemoProfileBuilder.buildwithPvalue(subgraphCount, relativeFreqAnalyzer,
+		// 		0.05, this.dirPathSep + resFileName, targetGraph.getNameToIndexMap());
 		NemoProfileBuilder.buildwithPvalue(subgraphCount, relativeFreqAnalyzer,
-				0.05, this.dirPathSep + resFileName, targetGraph.getNameToIndexMap());
+				1.0, this.dirPathSep + resFileName, targetGraph.getNameToIndexMap());
+		
 		logger.trace("SubgraphProfile Compete");
 		setRes(responseBean, time, relativeFreqAnalyzer.toString());
 		return setFileRes(resFileName, responseBean);
@@ -190,13 +193,13 @@ public class ComputingService {
 		
 		// This is optional, if the user want to collect all subgraphs with canonical label in a file
 		// Write the nemocollection result based on zscore thresh (anything with >=2 is collected) .
-		logger.trace("Write the nemocollection result based on zscore thresh (anything with >=2 is collected) .");
-		NemoCollectionBuilder.buildwithZScore(subgraphCount, relativeFreqAnalyzer,
-				2.0, "NemoCollectionZscore.txt", targetGraph.getNameToIndexMap());
+		// logger.trace("Write the nemocollection result based on zscore thresh (anything with >=2 is collected) .");
+		// NemoCollectionBuilder.buildwithZScore(subgraphCount, relativeFreqAnalyzer,
+		// 		2.0, "NemoCollectionZscore.txt", targetGraph.getNameToIndexMap());
 		
-		logger.trace("Write the nemocollection result based on pvalue thresh (anything with <0.05 is collected).");
-		NemoCollectionBuilder.buildwithPvalue(subgraphCount, relativeFreqAnalyzer,
-				0.05, "NemoCollectionPValue.txt", targetGraph.getNameToIndexMap());
+		// logger.trace("Write the nemocollection result based on pvalue thresh (anything with <0.05 is collected).");
+		// NemoCollectionBuilder.buildwithPvalue(subgraphCount, relativeFreqAnalyzer,
+		// 		0.05, "NemoCollectionPValue.txt", targetGraph.getNameToIndexMap());
 		
 		String resFileName = uuid + "_subCol.txt";
 		logger.trace("Write the subgraph collection to " + resFileName);

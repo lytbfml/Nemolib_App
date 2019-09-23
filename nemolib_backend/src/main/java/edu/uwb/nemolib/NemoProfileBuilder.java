@@ -23,9 +23,7 @@ public class NemoProfileBuilder {
 		
 		for (Map.Entry<String, Double> labelPValue : pValues.entrySet()) {
 			if (labelPValue.getValue() <= pThresh) {
-				//System.out.println(labelPValue.getKey());
-				result.addFrequencies(labelPValue.getKey(),
-						sp.getFrequencies(labelPValue.getKey()));
+				result.addFrequencies(labelPValue.getKey(), sp.getFrequencies(labelPValue.getKey()));
 			}
 		}
 		if (filename == null || filename.isEmpty()) {
@@ -44,9 +42,7 @@ public class NemoProfileBuilder {
 		
 		for (Map.Entry<String, Double> labelZSore : zScores.entrySet()) {
 			if (labelZSore.getValue() >= zThresh) {
-				//System.out.println(labelPValue.getKey());
-				result.addFrequencies(labelZSore.getKey(),
-						sp.getFrequencies(labelZSore.getKey()));
+				result.addFrequencies(labelZSore.getKey(), sp.getFrequencies(labelZSore.getKey()));
 			}
 		}
 		if (filename == null)
@@ -163,23 +159,17 @@ public class NemoProfileBuilder {
 			
 			for (String vertex : vertices) {
 				
-				WriteFileBuffer.write(vertex.toString());
-				
+				WriteFileBuffer.write(vertex);
 				for (String label : labels) {
 					Integer freq = profileMap.get(label).get(nametoIndex.get(vertex));
 					if (freq == null)
 						freq = 0;
 					WriteFileBuffer.write("\t" + freq);
 				}
-				
 				WriteFileBuffer.newLine();
 			}
-			
 			// Now write a vertex and frequency of each
-			
 			WriteFileBuffer.close();
-			
-			
 		} catch (IOException Ex) {
 			System.out.println(Ex.getMessage());
 		}

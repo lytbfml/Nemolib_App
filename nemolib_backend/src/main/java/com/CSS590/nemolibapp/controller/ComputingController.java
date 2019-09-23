@@ -66,7 +66,6 @@ public class ComputingController {
 					"Error, cannot upload file" + file.getOriginalFilename());
 		}
 		
-		String x = Paths.get(".").toAbsolutePath().normalize().toString();
 		List<Double> probs = Arrays.asList(prob);
 		boolean success = cService.CalculateNetworkMotif(filePath.toString(), motifSize, randGraph,
 				directed == 1, probs, responseBean);
