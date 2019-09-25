@@ -12,6 +12,10 @@ public interface ResponseBean {
 	
 	void setResults(String results);
 	
+	default void setRes(long time, String relaFreqAna) {
+		setResults("Running time = " + (System.currentTimeMillis() - time) + "ms\n" + relaFreqAna);
+	}
+	
 	String getResults();
 	
 	void setOptional(String optional);

@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -79,7 +80,8 @@ public class ComputingService {
 		
 		logger.debug("Step 3: Determine network motifs through statistical analysis...");
 		RelativeFrequencyAnalyzer relativeFreqAnalyzer = new RelativeFrequencyAnalyzer(randFreqMap, tgtFreqMap);
-		setRes(responseBean, time, relativeFreqAnalyzer.toString());
+		// setRes(responseBean, time, relativeFreqAnalyzer.toString());
+		responseBean.setRes(time, relativeFreqAnalyzer.toString());
 		return true;
 	}
 	
@@ -89,8 +91,8 @@ public class ComputingService {
 	 * If the graph or motif size is big, this method is recommended.
 	 * To go different option, just comment out all the method from this line until encounter
 	 */
-	public String CalculateNemoProfile(String uuid, String fileName, int motifSize, int randGraphCount,
-	                                   boolean directed, List<Double> prob, FileResponse responseBean) {
+	public List<String> CalculateNemoProfile(String uuid, String fileName, int motifSize, int randGraphCount,
+	                                         boolean directed, List<Double> prob, FileResponse responseBean) {
 		logger.info("Start CalculateNemoProfile");
 		final long time = System.currentTimeMillis();
 		
@@ -127,16 +129,28 @@ public class ComputingService {
 		logger.debug("Step 3: Determine network motifs through statistical analysis...");
 		RelativeFrequencyAnalyzer relativeFreqAnalyzer = new RelativeFrequencyAnalyzer(randFreqMap, tgtFreqMap);
 		
-		String resFileName = uuid + "_subProfile.txt";
-		logger.debug("Building results based on pvalue < 0.05 " + resFileName);
-		// NemoProfileBuilder.buildwithPvalue(subgraphCount, relativeFreqAnalyzer,
-		// 		0.05, this.dirPathSep + resFileName, targetGraph.getNameToIndexMap());
+		String resFile1 = uuid + "_nemoProfile.txt";
+		String resFile2 = uuid + "_subProfile.txt";
+		logger.debug("Building results based on pvalue < 0.05 " + resFile1);
 		NemoProfileBuilder.buildwithPvalue(subgraphCount, relativeFreqAnalyzer,
-				1.0, this.dirPathSep + resFileName, targetGraph.getNameToIndexMap());
+				0.05, this.dirPathSep + resFile1, targetGraph.getNameToIndexMap());
+		
+		logger.debug("Building results based on pvalue = 1.0 " + resFile2);
+		try {
+			NemoProfileBuilder.buildwithPvalue(subgraphCount, relativeFreqAnalyzer,
+					1.0, this.dirPathSep + resFile2, targetGraph.getNameToIndexMap());
+		} catch (Exception ex) {
+			logger.debug("Cannot create subProfile: " + ex.toString());
+		}
+		
+		List<String> resFiles = new ArrayList<>();
+		resFiles.add(resFile1);
+		resFiles.add(resFile2);
 		
 		logger.trace("SubgraphProfile Compete");
-		setRes(responseBean, time, relativeFreqAnalyzer.toString());
-		return setFileRes(resFileName, responseBean);
+		responseBean.setRes(time, relativeFreqAnalyzer.toString());
+		// setRes(responseBean, time, relativeFreqAnalyzer.toString());
+		return setFileRes(resFiles, responseBean);
 	}
 	
 	/**
@@ -145,8 +159,8 @@ public class ComputingService {
 	 * It is recormended to use for moderate graph size or motif size.
 	 * To go different option, just comment out all the method from this line until encounter 33333333333333333333333333333333333333333
 	 */
-	public String CalculateNemoCollection(String uuid, String fileName, int motifSize, int randGraphCount,
-	                                      boolean directed, List<Double> prob, FileResponse responseBean) {
+	public List<String> CalculateNemoCollection(String uuid, String fileName, int motifSize, int randGraphCount,
+	                                            boolean directed, List<Double> prob, FileResponse responseBean) {
 		logger.info("Start CalculateNemoCollection");
 		final long time = System.currentTimeMillis();
 		
@@ -197,33 +211,45 @@ public class ComputingService {
 		// NemoCollectionBuilder.buildwithZScore(subgraphCount, relativeFreqAnalyzer,
 		// 		2.0, "NemoCollectionZscore.txt", targetGraph.getNameToIndexMap());
 		
-		// logger.trace("Write the nemocollection result based on pvalue thresh (anything with <0.05 is collected).");
-		// NemoCollectionBuilder.buildwithPvalue(subgraphCount, relativeFreqAnalyzer,
-		// 		0.05, "NemoCollectionPValue.txt", targetGraph.getNameToIndexMap());
 		
-		String resFileName = uuid + "_subCol.txt";
-		logger.trace("Write the subgraph collection to " + resFileName);
+		String resFile1 = uuid + "_nemoCollection.txt";
+		String resFile2 = uuid + "_subCollection.txt";
+		
+		logger.trace("Write the nemocollection result based on pvalue thresh (anything with <0.05 is collected).");
 		NemoCollectionBuilder.buildwithPvalue(subgraphCount, relativeFreqAnalyzer,
-				1.0, this.dirPathSep + resFileName, targetGraph.getNameToIndexMap());
+				0.05, this.dirPathSep + resFile1, targetGraph.getNameToIndexMap());
+		
+		logger.trace("Write the subgraph/nemo collection to " + resFile1 + ", " + resFile2);
+		NemoCollectionBuilder.buildwithPvalue(subgraphCount, relativeFreqAnalyzer,
+				1.0, this.dirPathSep + resFile2, targetGraph.getNameToIndexMap());
 		
 		logger.trace("NemoCollection Compete");
 		
-		setRes(responseBean, time, relativeFreqAnalyzer.toString());
-		return setFileRes(resFileName, responseBean);
+		List<String> resFiles = new ArrayList<>();
+		resFiles.add(resFile1);
+		resFiles.add(resFile2);
+		
+		responseBean.setRes(time, relativeFreqAnalyzer.toString());
+		// setRes(responseBean, time, relativeFreqAnalyzer.toString());
+		return setFileRes(resFiles, responseBean);
 	}
 	
-	private void setRes(ResponseBean responseBean, long time, String relaFreqAna) {
-		responseBean.setResults("Running time = " + (System.currentTimeMillis() - time) + "ms\n" + relaFreqAna);
-	}
-	
-	private String setFileRes(String resFileName, FileResponse responseBean) {
-		File file = new File(this.dirPathSep + resFileName);
-		if (file.exists()) {
-			responseBean.setFilename(resFileName);
-			responseBean.setSize(file.length() / 1024);
-			return resFileName;
+	private List<String> setFileRes(List<String> resFileNames, FileResponse responseBean) {
+		
+		if (resFileNames != null || resFileNames.size() > 0) {
+			List<String> files = new ArrayList<>();
+			for (int i = 0; i < resFileNames.size(); i++) {
+				File file = new File(this.dirPathSep + resFileNames.get(i));
+				if (file.exists()) {
+					files.add(resFileNames.get(i));
+					responseBean.addFilename(resFileNames.get(i));
+					// responseBean.setSize(file.length() / 1024);
+				}
+			}
+			
+			return files;
 		} else {
-			return "no";
+			return new ArrayList<>();
 		}
 	}
 }

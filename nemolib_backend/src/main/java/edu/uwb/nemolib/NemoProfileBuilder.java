@@ -170,8 +170,8 @@ public class NemoProfileBuilder {
 			}
 			// Now write a vertex and frequency of each
 			WriteFileBuffer.close();
-		} catch (IOException Ex) {
-			System.out.println(Ex.getMessage());
+		} catch (IOException ex) {
+			System.out.println("IOex: " + ex.getMessage());
 		}
 		
 		

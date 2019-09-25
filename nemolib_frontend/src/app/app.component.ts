@@ -194,6 +194,8 @@ export class AppComponent implements OnInit {
                     } else if (res instanceof HttpResponse) {
                         this.results += 'File is completely uploaded!\n';
                         this.fileResponse = JSON.parse(res.body.toString());
+                        console.log(this.fileResponse);
+                        console.log(res.body.toString());
                         this.results += this.fileResponse.message;
                         this.results += this.fileResponse.results;
                         this.showFileDownload();
@@ -225,10 +227,12 @@ export class AppComponent implements OnInit {
 
     showFileDownload() {
         if (this.fileResponse.optional == null || this.fileResponse.optional === '') {
-            this.downloadFileData = this.downloadFileData.concat([{
-                name: this.fileResponse.filename,
-                url: this.fileResponse.url
-            }]);
+            for (let i = 0; i < this.fileResponse.filename.length; i++) {
+                this.downloadFileData = this.downloadFileData.concat([{
+                    name: this.fileResponse.filename[i],
+                    url: this.fileResponse.url[i]
+                }]);
+            }
         } else {
             this.results += 'No File generated\n';
         }

@@ -21,7 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -101,9 +101,10 @@ public class ComputingController {
 		}
 		
 		List<Double> probs = Arrays.asList(prob);
-		String filename = cService.CalculateNemoProfile(uuid, filePath.toString(), motifSize, randGraph,
+		List<String> filenames = cService.CalculateNemoProfile(uuid, filePath.toString(), motifSize, randGraph,
 				directed == 1, probs, responseBean);
-		return processResults(filename, responseBean);
+		logger.debug("res" + responseBean.getFilename());
+		return processResults(filenames, responseBean);
 	}
 	
 	@CrossOrigin()
@@ -131,8 +132,9 @@ public class ComputingController {
 		}
 		
 		List<Double> probs = Arrays.asList(prob);
-		String filename = cService.CalculateNemoCollection(uuid, filePath.toString(), motifSize, randGraph,
+		List<String> filename = cService.CalculateNemoCollection(uuid, filePath.toString(), motifSize, randGraph,
 				directed == 1, probs, responseBean);
+		logger.debug("res" + responseBean.getFilename());
 		return processResults(filename, responseBean);
 	}
 	
@@ -164,24 +166,29 @@ public class ComputingController {
 				.body(resource);
 	}
 	
-	private FileResponse processResults(String filename, FileResponse responseBean) {
-		if (filename == null) {
+	private FileResponse processResults(List<String> filenames, FileResponse responseBean) {
+		if (filenames == null) {
 			throw new ResourceException(HttpStatus.BAD_REQUEST, "Unknown error");
-		} else if (filename.equals("no")) {
+		} else if (filenames.size() == 0) {
 			responseBean.setOptional("No file generated");
 			return responseBean;
 		}
-		setFileDownloadUrl(responseBean, filename);
+		setFileDownloadUrl(responseBean, filenames);
 		logger.trace("Return result");
 		return responseBean;
 	}
 	
-	private void setFileDownloadUrl(FileResponse responseBean, String name) {
-		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/compute/downloadFile/")
-				.path(name)
-				.toUriString();
-		logger.debug(fileDownloadUri);
-		responseBean.setUrl(fileDownloadUri);
+	private void setFileDownloadUrl(FileResponse responseBean, List<String> name) {
+		List<String> uris = new ArrayList<>();
+		for (int i = 0; i < name.size(); i++) {
+			String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+					.path("/compute/downloadFile/")
+					.path(name.get(i))
+					.toUriString();
+			uris.add(fileDownloadUri);
+			logger.debug("Download URI: " + fileDownloadUri);
+		}
+		
+		responseBean.setUrl(uris);
 	}
 }
