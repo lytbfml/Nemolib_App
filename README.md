@@ -4,9 +4,9 @@ This application uses API [UWB Nemolibrary](https://github.com/drewandersen/nemo
 
 We used [Angular](https://angular.io/) (v7.3.5) for the front end, and [Spring Boot](https://spring.io) (v2.1.2.RELEASE) for the back end.  
 Both of the front-end and back-end applications are deployed on my AWS.  
-To access the back end api, please go to [Swagger UI](http://54.202.6.246:8080/swagger-ui.html#/). (Only available in US West)  
-To acces the front end web page, please go to [NemoLib Application](http://nemolib.s3-website-us-west-2.amazonaws.com/).  
-Note the above links might be invalid because I am using my personal AWS account and I only have one EC2 instance for US West.
+To access the back end api, please go to [Swagger UI](https://bioresearch.css.uwb.edu:8082/swagger-ui.html#/).
+To acces the front end web page, please go to [NemoLib Application](https://bioresearch.css.uwb.edu/biores/nemo/).  
+~~Note the above links might be invalid because I am using my personal AWS account and I only have one EC2 instance for US West.~~
 
 To learn more, please contact wyxiao@uw.edu, hsuy717@uw.edu.
 
