@@ -7,8 +7,9 @@ import {Observable} from 'rxjs';
     providedIn: 'root'
 })
 export class ApiService {
-    private BASE_URL = 'http://bioresearch02p.uwb.edu:8082/' + '/compute';
     // private BASE_URL = 'http://localhost:8082' + '/compute';
+    // private BASE_URL = 'http://192.168.50.121:8082' + '/compute';
+    private BASE_URL = 'https://bioresearch.css.uwb.edu:8083' + '/compute';
     private SUBMIT_NETWORKMOTIF_URL = `${this.BASE_URL}/networkmotif/`;
     private SUBMIT_NEMOPROFILE_URL = `${this.BASE_URL}/nemoprofile/`;
     private SUBMIT_NEMOCOLLECTION_URL = `${this.BASE_URL}/nemocollect/`;

@@ -27,7 +27,7 @@ public class ComputingService {
 	
 	public ComputingService(FileStorageProperties fileStorageProperties) {
 		this.dirPath = Paths.get(fileStorageProperties.getWorkDir()).toAbsolutePath().normalize();
-		this.dirPathSep = this.dirPath.getFileName() + File.separator;
+		this.dirPathSep = this.dirPath.toString() + File.separator;
 		logger.debug("Current workdir: " + this.dirPath);
 	}
 	
@@ -133,10 +133,21 @@ public class ComputingService {
 		// 		0.05, this.dirPathSep + resFileName, targetGraph.getNameToIndexMap());
 		NemoProfileBuilder.buildwithPvalue(subgraphCount, relativeFreqAnalyzer,
 				1.0, this.dirPathSep + resFileName, targetGraph.getNameToIndexMap());
+		Map<String, Integer> freqVector = NemoProfileBuilder.getNemoFrequencyVector(subgraphCount, relativeFreqAnalyzer,
+				1.0, targetGraph.getNameToIndexMap(), motifSize);
 		
 		logger.trace("SubgraphProfile Compete");
-		setRes(responseBean, time, relativeFreqAnalyzer.toString());
+		setResWithMap(responseBean, time, relativeFreqAnalyzer.toString(), freqVector);
 		return setFileRes(resFileName, responseBean);
+	}
+	
+	private void setResWithMap(FileResponse responseBean, long time, String relaFreqAna, Map<String, Integer> freqVector) {
+		StringBuilder freqV = new StringBuilder();
+		for (Map.Entry<String, Integer> entry : freqVector.entrySet()) {
+			freqV.append(entry.getKey()).append(": ").append(entry.getValue()).append("\t");
+		}
+		responseBean.setResults("Running time = " + (System.currentTimeMillis() - time) + "ms\n" + relaFreqAna + "\n"
+		                       + freqV.toString());
 	}
 	
 	/**

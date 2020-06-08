@@ -5,17 +5,12 @@
  */
 package edu.uwb.nemolib;
 
-import java.util.*;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import java.io.*;
-import java.util.*;
-import java.nio.channels.*;
+import java.nio.channels.FileChannel;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author wkim
@@ -44,7 +39,7 @@ public class NemoCollectionBuilder {
 	public static void buildwithPvalue(SubgraphCollection sp,
 	                                   RelativeFrequencyAnalyzer sa,
 	                                   double pThresh, String writefilename,
-	                                   Map nametoIndex) {
+	                                   Map<String, Integer> nametoIndex) {
 		
 		// If subgraphcollection needs to be obtained,
 		Map<String, Double> pValues = sa.getPValues();

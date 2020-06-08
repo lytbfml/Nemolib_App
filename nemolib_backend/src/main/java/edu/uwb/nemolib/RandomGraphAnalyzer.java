@@ -1,7 +1,6 @@
 package edu.uwb.nemolib;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -71,8 +70,7 @@ public final class RandomGraphAnalyzer {
 			enumerator.enumerate(randomGraph, subgraphSize, subgraphCount);
 			subgraphCount.label();
 			
-			Map<String, Double> curLabelRelFreqMap =
-					subgraphCount.getRelativeFrequencies();
+			Map<String, Double> curLabelRelFreqMap = subgraphCount.getRelativeFrequencies();
 			
 			
 			// To correctly calculate the mean value, if none of patterns are detected, then decrease the number of trials.
@@ -99,8 +97,7 @@ public final class RandomGraphAnalyzer {
 		// fill in with zeros any List that is less than subgraph count to
 		// ensure non-detection is accounted for.
 		
-		for (List<Double> freqs :
-				labelToRelativeFrequencies.values()) {
+		for (List<Double> freqs : labelToRelativeFrequencies.values()) {
 			while (freqs.size() < numTrials) {
 				freqs.add(0.0);
 			}

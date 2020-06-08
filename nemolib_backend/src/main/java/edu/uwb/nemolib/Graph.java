@@ -17,7 +17,7 @@ public class Graph implements Serializable {
 	
 	// Added to save nametoindex map (if parsed)
 	
-	private Map nameToIndex = new HashMap<String, Integer>();
+	private Map<String, Integer> nameToIndex = new HashMap<>();
 	
 	/**
 	 * Construct a graph object. Default is undirected graph.
@@ -34,11 +34,11 @@ public class Graph implements Serializable {
 		adjacencyLists.add(new AdjacencyList());// add an empty list
 	}
 	
-	public void setNameToIndexMap(Map nToIdx) {
+	public void setNameToIndexMap(Map<String, Integer> nToIdx) {
 		nameToIndex = nToIdx;
 	}
 	
-	public Map getNameToIndexMap() {
+	public Map<String, Integer> getNameToIndexMap() {
 		return nameToIndex;
 	}
 	

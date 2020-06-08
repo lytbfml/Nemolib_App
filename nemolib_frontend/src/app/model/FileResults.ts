@@ -1,4 +1,4 @@
-export interface FileResults{
+export interface FileResults {
     message: string;
     results: string;
     optional: string;

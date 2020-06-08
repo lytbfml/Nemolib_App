@@ -17,7 +17,7 @@ public class NemoProfileBuilder {
 	public static SubgraphProfile buildwithPvalue(SubgraphProfile sp,
 	                                              RelativeFrequencyAnalyzer sa,
 	                                              double pThresh, String filename,
-	                                              Map nametoIndex) {
+	                                              Map<String, Integer> nametoIndex) {
 		SubgraphProfile result = new SubgraphProfile();
 		Map<String, Double> pValues = sa.getPValues();
 		
@@ -34,9 +34,9 @@ public class NemoProfileBuilder {
 		return result;
 	}
 	
-	public static SubgraphProfile buildwithZScore(SubgraphProfile sp,
-	                                              RelativeFrequencyAnalyzer sa,
-	                                              double zThresh, String filename, Map nametoIndex) {
+	public static SubgraphProfile buildwithZScore(SubgraphProfile sp, RelativeFrequencyAnalyzer sa,
+	                                              double zThresh, String filename,
+	                                              Map<String, Integer> nametoIndex) {
 		SubgraphProfile result = new SubgraphProfile();
 		Map<String, Double> zScores = sa.getZScores();
 		
@@ -53,9 +53,71 @@ public class NemoProfileBuilder {
 		return result;
 	}
 	
+	public static Map<String, Integer> getNemoFrequencyVector(SubgraphProfile sp,
+	                                                          RelativeFrequencyAnalyzer sa,
+	                                                          double pThresh, Map<String, Integer> nametoIndex,
+	                                                          int motifSize) {
+		SubgraphProfile result = new SubgraphProfile();
+		Map<String, Double> pValues = sa.getPValues();
+		
+		for (Map.Entry<String, Double> labelPValue : pValues.entrySet()) {
+			if (labelPValue.getValue() <= pThresh) {
+				result.addFrequencies(labelPValue.getKey(), sp.getFrequencies(labelPValue.getKey()));
+			}
+		}
+		
+		SortedSet<String> vertices = new TreeSet<>();
+		Map<String, Map<Integer, Integer>> profileMap = result.getProfileMap();
+		if (profileMap.size() < 1) {
+			System.out.println("Network Motifs are not found with the threshold \n");
+			return null;
+		}
+		
+		// Swap the key and value of nametoIndex
+		HashMap<Integer, String> indexToName = new HashMap<>();
+		for (String key : nametoIndex.keySet()) {
+			Integer index = nametoIndex.get(key);
+			indexToName.put(index, key);
+		}
+		
+		// Collect and sort all labels of network motifs
+		SortedSet<String> labels = new TreeSet<>(profileMap.keySet());
+		
+		Set<Integer> indices = new HashSet<>();
+		
+		// Collect and sort all vertices that are participated in network motifs
+		for (String canlabel : labels) {
+			Map<Integer, Integer> vertexFreq = profileMap.get(canlabel);
+			indices.addAll(vertexFreq.keySet());
+		}
+		
+		// Collect all vertices (as original name) participated in nemo
+		for (Integer idx : indices) {
+			vertices.add(indexToName.get(idx));
+		}
+		
+		Map<String, Integer> freqVector = new HashMap<>();
+		
+		for (String vertex : vertices) {
+			for (String label : labels) {
+				Integer freq = profileMap.get(label).get(nametoIndex.get(vertex));
+				if (freq == null) {
+					freq = 0;
+				}
+				freqVector.putIfAbsent(label, 0);
+				freqVector.put(label, freqVector.get(label) + freq);
+			}
+		}
+		for (String label: labels) {
+			freqVector.put(label, freqVector.get(label) / motifSize);
+		}
+		return freqVector;
+	}
+	
+	
 	private static void writeNemoProfile(SubgraphProfile sp, String filename) {
-		SortedSet<Integer> vertices = new TreeSet<Integer>();
-		SortedSet<String> labels = new TreeSet<String>();
+		SortedSet<Integer> vertices = new TreeSet<>();
+		SortedSet<String> labels = new TreeSet<>();
 		
 		Map<String, Map<Integer, Integer>> profileMap = sp.getProfileMap();
 		
@@ -83,9 +145,7 @@ public class NemoProfileBuilder {
 			WriteFileBuffer.newLine();
 			// Now write a vertex, and their frequencies corresponding each pattern
 			for (Integer vertex : vertices) {
-				
 				WriteFileBuffer.write(vertex.toString());
-				
 				for (String label : labels) {
 					Integer freq = profileMap.get(label).get(vertex);
 					if (freq == null)
@@ -95,9 +155,7 @@ public class NemoProfileBuilder {
 				
 				WriteFileBuffer.newLine();
 			}
-			
 			// Now write a vertex and frequency of each
-			
 			WriteFileBuffer.close();
 			
 		} catch (IOException Ex) {
@@ -107,14 +165,13 @@ public class NemoProfileBuilder {
 		
 	}
 	
-	private static void writeNemoProfile(SubgraphProfile sp, String filename, Map nametoIndex) {
+	private static void writeNemoProfile(SubgraphProfile sp, String filename, Map<String, Integer> nametoIndex) {
 		// If the map is not given, just print with index
 		if (nametoIndex == null) {
 			writeNemoProfile(sp, filename);
 			return;
 		}
-		SortedSet<String> vertices = new TreeSet<String>();
-		SortedSet<String> labels = new TreeSet<String>();
+		SortedSet<String> vertices = new TreeSet<>();
 		
 		Map<String, Map<Integer, Integer>> profileMap = sp.getProfileMap();
 		if (profileMap.size() < 1) {
@@ -123,18 +180,16 @@ public class NemoProfileBuilder {
 		}
 		
 		// Swap the key and value of nametoIndex
-		HashMap<Integer, String> indextoname = new HashMap<Integer, String>();
-		for (Object key : nametoIndex.keySet()) {
-			Object index = nametoIndex.get(key);
-			indextoname.put((Integer) index, (String) key);
+		HashMap<Integer, String> indexToName = new HashMap<>();
+		for (String key : nametoIndex.keySet()) {
+			Integer index = nametoIndex.get(key);
+			indexToName.put(index, key);
 		}
 		
-		
 		// Collect and sort all labels of network motifs
-		labels.addAll(profileMap.keySet());
+		SortedSet<String> labels = new TreeSet<>(profileMap.keySet());
 		
-		Set<Integer> indices = new HashSet<Integer>();
-		
+		Set<Integer> indices = new HashSet<>();
 		
 		// Collect and sort all vertices that are participated in network motifs
 		for (String canlabel : labels) {
@@ -144,7 +199,7 @@ public class NemoProfileBuilder {
 		
 		// Collect all vertices (as original name) participated in nemo
 		for (Integer idx : indices)
-			vertices.add(indextoname.get(idx));
+			vertices.add(indexToName.get(idx));
 		
 		// Write to a file
 		try {
@@ -156,25 +211,22 @@ public class NemoProfileBuilder {
 			}
 			WriteFileBuffer.newLine();
 			// Now write a vertex, and their frequencies corresponding each pattern
-			
 			for (String vertex : vertices) {
-				
 				WriteFileBuffer.write(vertex);
 				for (String label : labels) {
 					Integer freq = profileMap.get(label).get(nametoIndex.get(vertex));
-					if (freq == null)
+					if (freq == null) {
 						freq = 0;
+					}
 					WriteFileBuffer.write("\t" + freq);
 				}
 				WriteFileBuffer.newLine();
 			}
-			// Now write a vertex and frequency of each
 			WriteFileBuffer.close();
 		} catch (IOException Ex) {
 			System.out.println(Ex.getMessage());
 		}
-		
-		
 	}
+	
 	
 }

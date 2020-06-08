@@ -21,7 +21,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -73,6 +72,7 @@ public class ComputingController {
 			throw new ResourceException(HttpStatus.BAD_REQUEST, "Unknown error");
 		}
 		logger.trace("Return result");
+		logger.info(responseBean.getMessage() + '\n' + responseBean.getResults());
 		return responseBean;
 	}
 	
@@ -103,6 +103,7 @@ public class ComputingController {
 		List<Double> probs = Arrays.asList(prob);
 		String filename = cService.CalculateNemoProfile(uuid, filePath.toString(), motifSize, randGraph,
 				directed == 1, probs, responseBean);
+		logger.info(responseBean.getMessage() + '\n' + responseBean.getResults());
 		return processResults(filename, responseBean);
 	}
 	
@@ -133,6 +134,7 @@ public class ComputingController {
 		List<Double> probs = Arrays.asList(prob);
 		String filename = cService.CalculateNemoCollection(uuid, filePath.toString(), motifSize, randGraph,
 				directed == 1, probs, responseBean);
+		logger.info(responseBean.getMessage() + '\n' + responseBean.getResults());
 		return processResults(filename, responseBean);
 	}
 	

@@ -1,7 +1,9 @@
 package edu.uwb.nemolib;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * The SubgraphProfile is an enumeration of each label, grouped by network
@@ -52,8 +54,7 @@ public class SubgraphProfile implements SubgraphEnumerationResult, Serializable 
 		labelToVertexToFrequency.put(label, nodeToFrequency);
 	}
 	
-	public boolean addFrequencies(String label,
-	                              Map<Integer, Integer> frequencies) {
+	public boolean addFrequencies(String label, Map<Integer, Integer> frequencies) {
 		if (labelToVertexToFrequency.containsKey(label)) {
 			return false;
 		}
@@ -81,8 +82,7 @@ public class SubgraphProfile implements SubgraphEnumerationResult, Serializable 
 		for (Map.Entry<String, Map<Integer, Integer>> g6VertexToFrequency :
 				labelToVertexToFrequency.entrySet()) {
 			// must exist
-			String canLabel =
-					g6LabelToCanonicalLabel.get(g6VertexToFrequency.getKey());
+			String canLabel = g6LabelToCanonicalLabel.get(g6VertexToFrequency.getKey());
 			
 			Map<Integer, Integer> vertexToFrequency =
 					canLabelToVertexToFrequency.get(canLabel);
