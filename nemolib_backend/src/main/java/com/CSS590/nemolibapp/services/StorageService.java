@@ -23,18 +23,34 @@ import java.util.stream.Stream;
 public class StorageService {
 	private final Path dirPath;
 	private final Path downLoadPath;
+	private final Path tempPath;
 	Logger logger = LogManager.getLogger(StorageService.class);
 	
 	public StorageService(FileStorageProperties fileStorageProperties) {
 		
+		this.tempPath = Paths.get("/tmp/nemoback/upload_tmp").toAbsolutePath().normalize();
 		this.dirPath = Paths.get(fileStorageProperties.getUploadDir()).toAbsolutePath().normalize();
 		this.downLoadPath = Paths.get(fileStorageProperties.getWorkDir()).toAbsolutePath().normalize();
+		
 		try {
+			Files.createDirectories(this.tempPath);
 			Files.createDirectories(this.dirPath);
 			Files.createDirectories(this.downLoadPath);
 		} catch (Exception ex) {
 			logger.error("Could not create the directory : " + ex.getMessage());
 		}
+		
+		// try {
+		// 	Files.createDirectories(this.downLoadPath);
+		// } catch (Exception ex) {
+		// 	logger.error("Could not create the directory : " + ex.getMessage());
+		// }
+		//
+		// try {
+		// 	Files.createDirectories(this.dirPath);
+		// } catch (Exception ex) {
+		// 	logger.error("Could not create the directory : " + ex.getMessage());
+		// }
 	}
 	
 	public Path storeFile(MultipartFile file) {

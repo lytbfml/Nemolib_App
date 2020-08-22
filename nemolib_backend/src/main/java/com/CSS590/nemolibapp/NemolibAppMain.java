@@ -14,6 +14,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 })
 public class NemolibAppMain {
 	public static void main(String[] args) {
+		
+		
 		SpringApplication.run(NemolibAppMain.class, args);
 	}
 	

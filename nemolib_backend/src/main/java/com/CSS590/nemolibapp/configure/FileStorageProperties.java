@@ -25,4 +25,5 @@ public class FileStorageProperties {
 	public void setWorkDir(String workDir) {
 		this.workDir = workDir;
 	}
+	
 }
